@@ -7,7 +7,7 @@ A tiny shell-script based testing framework
 ## Usage
 
 1. Create a test directory, e.g. `test`
-2. Copy and paste the contents of [`tsht`](./tsht.sh) to a file named `tsht.sh`.
+2. Copy and paste the contents of [`tsht`](./tsht) to a file named `tsht`.
 3. Create your unit tests
 4. Execute all tests using `./tsht` or a single test using `./tsht path/to/unit-test.tsht`
 
@@ -25,6 +25,6 @@ to run early with a low number.
 
 ## API
 
-See the auto-generated docs in [./doc](./blob/master/doc)
+See the auto-generated docs in [./doc](./doc)
 
-* [Core functions](./blob/master/doc/tsht-core.md)
+* [Core functions](./doc/tsht-core.md)
