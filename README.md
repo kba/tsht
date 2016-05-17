@@ -2,6 +2,8 @@ tsht
 ====
 A tiny shell-script based testing framework
 
+[![Build Status](https://travis-ci.org/kba/tsht.svg?branch=master)](https://travis-ci.org/kba/tsht)
+
 ## Usage
 
 1. Create a test directory, e.g. `test`
