@@ -1,0 +1,7 @@
+#!/usr/bin/env tsht
+
+plan 3
+
+exec_ok "tsht" "--help"
+exec_ok "tsht" "-h"
+equals "$(tsht --help)" "$(tsht -h)"

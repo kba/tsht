@@ -9,6 +9,6 @@ exec_ok "touch" "$test_file"
 file_exists "$test_file"
 echo "foo" > $test_file
 file_not_empty "$test_file"
-equals "bar" "$(cat "$test_file")"
+equals "foo" "$(cat "$test_file")"
 
 rm $test_file

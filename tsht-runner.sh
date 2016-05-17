@@ -6,16 +6,26 @@ if [[ -z "$TSHTLIB" ]];then
 fi
 
 usage() {
-    echo "Usage: $0 [-h] [<path/to/unit.sh>]"
+    echo "Usage: $0 [-h] [<path/to/unit.tsht>]"
 }
+
+while [[ "$1" =~ ^- ]];do
+    case "$1" in
+        --)
+            shift
+            break
+            ;;
+        --help|-h)
+            usage
+            exit
+            ;;
+    esac
+done
 
 declare -a TESTS
 
 if [[ -n "$1" ]];then
-    if [[ "$1" = "-h" ]];then
-        usage
-        exit
-    elif [[ -e "$1" ]];then
+    if [[ -e "$1" ]];then
         TESTS=("$1")
     else
         usage 
@@ -31,7 +41,9 @@ for t in "${TESTS[@]}";do
     echo "#"
     echo "# Testing $t"
     echo "#"
+    export PATH=$(readlink "$(dirname "$0")"/..):$PATH
     (
+
         TEST_IDX=0
         TEST_PLAN=0
         source "$TSHTLIB/tsht-core.sh"

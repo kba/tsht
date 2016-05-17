@@ -6,7 +6,7 @@ _inc_curtest() {
 
 # ## plan
 #
-# Specify the number of planned tests
+# Specify the number of planned assertions
 #
 #     plan <number-of-tests>
 plan() {
@@ -31,9 +31,9 @@ equals() {
     expected="$1"
     actual="$2"
     message="$3"
-    message=${message:-(unnamed equals test)}
+    message=${message:-(unnamed equals assertion)}
     _inc_curtest
-    if [[ "$expected" -eq "$actual" ]];then
+    if [[ "$expected" = "$actual" ]];then
         echo "ok $TEST_IDX - $message"
     else
         echo "not ok $TEST_IDX - $message ($expected != $actual)"
@@ -48,7 +48,7 @@ not_equals() {
     expected="$1"
     actual="$2"
     message="$3"
-    message=${message:-(unnamed not_equals test)}
+    message=${message:-(unnamed not_equals assertion)}
     _inc_curtest
     if [[ "$expected" -ne "$actual" ]];then
         echo "ok $TEST_IDX - $message"
@@ -77,12 +77,12 @@ fail() {
     return 42
 }
 
-# ## ok
+# ## pass
 #
 # Succeed unconditionally.
 #
 # See [fail](#fail)
-ok() {
+pass() {
     local message diag
     message="$1"
     # shellcheck disable=SC2001
@@ -123,7 +123,7 @@ exec_ok() {
     local output
     output=$("$@" 2>&1)
     if [[ "$?" = 0 ]];then 
-        ok "Executed: $*"
+        pass "Executed: $*"
     else
         fail "Failed: $*" "$output"
     fi
@@ -137,7 +137,7 @@ exec_ok() {
 file_exists() {
     file="$1"
     if [[ -e "$file" ]];then
-        ok "File exists: $file"
+        pass "File exists: $file"
     else
         fail "File does not exist: $file"
     fi
@@ -149,7 +149,7 @@ file_exists() {
 file_not_empty() {
     file="$1"
     if [[ -s "$file" ]];then
-        ok "Not empty file: $file"
+        pass "Not empty file: $file"
     else
         fail "Empty file: $file"
     fi
