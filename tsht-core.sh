@@ -165,7 +165,7 @@ file_not_empty() {
 match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
-    message=${message:-(unnamed like assertion)}
+    message=${message:-(unnamed match assertion)}
     echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
     if [[ "$?" != 0 ]];then
         fail "Not like '$pattern': '$string'"
@@ -182,11 +182,39 @@ match() {
 not_match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
-    message=${message:-(unnamed like assertion)}
+    message=${message:-(unnamed not_match assertion)}
     echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
     if [[ "$?" = 0 ]];then
         fail "Like '$pattern': '$string'"
     else
         pass "Not like '$pattern': '$string'"
+    fi
+}
+
+# ## ok
+#
+# Succeed if the first argument is a non-empty non-zero string
+ok() {
+    local input message
+    input=$1 ; message=$2
+    message=${message:-(unnamed ok assertion)}
+    if [[ -z "$input" || "0" = "$input" ]];then
+        fail "$message ('$input')"
+    else
+        pass "$message"
+    fi
+}
+
+# ## not_ok
+#
+# Succeed if the first argument is an empty string or zero.
+not_ok() {
+    local input message
+    input=$1 ; message=$2
+    message=${message:-(unnamed not_ok assertion)}
+    if [[ -z "$input" || "0" = "$input" ]];then
+        pass "$message"
+    else
+        fail "$message"
     fi
 }
