@@ -4,15 +4,19 @@
 - [equals](#equals)
 - [not_equals](#not_equals)
 - [fail](#fail)
-- [ok](#ok)
+- [pass](#pass)
 - [exec_fail](#exec_fail)
 - [exec_ok](#exec_ok)
 - [file_exists](#file_exists)
 - [file_not_empty](#file_not_empty)
+- [match](#match)
+- [not_match](#not_match)
+- [ok](#ok)
+- [not_ok](#not_ok)
 
 ## plan
 
-Specify the number of planned tests
+Specify the number of planned assertions
 
     plan <number-of-tests>
 ## equals
@@ -35,7 +39,7 @@ Fail unconditionally
     fail <message> [<additional-output>]
 
 The additional output will be prefixed with `#`.
-## ok
+## pass
 
 Succeed unconditionally.
 
@@ -65,3 +69,19 @@ Succeed if a file (or folder or symlink...) exists.
 ## file_not_empty
 
 Succeed if a file exists and is a non-empty file.
+## match
+
+Succeed if a string matches a pattern
+
+    like "^\\d+$" "1234" "Only numbers"
+## not_match
+
+Succeed if a string **does not** match a pattern
+
+    like "^\\d+$" "1234" "Only numbers"
+## ok
+
+Succeed if the first argument is a non-empty non-zero string
+## not_ok
+
+Succeed if the first argument is an empty string or zero.
