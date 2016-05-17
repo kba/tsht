@@ -135,6 +135,7 @@ exec_ok() {
 #
 #     file_exists ".git"
 file_exists() {
+    local file
     file="$1"
     if [[ -e "$file" ]];then
         pass "File exists: $file"
@@ -147,10 +148,45 @@ file_exists() {
 #
 # Succeed if a file exists and is a non-empty file.
 file_not_empty() {
+    local file
     file="$1"
     if [[ -s "$file" ]];then
         pass "Not empty file: $file"
     else
         fail "Empty file: $file"
+    fi
+}
+
+# ## match
+#
+# Succeed if a string matches a pattern
+#
+#     like "^\\d+$" "1234" "Only numbers"
+match() {
+    local pattern string message
+    pattern="$1"; string="$2"; message="$3"
+    message=${message:-(unnamed like assertion)}
+    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
+    if [[ "$?" != 0 ]];then
+        fail "Not like '$pattern': '$string'"
+    else
+        pass "Like '$pattern': '$string'"
+    fi
+}
+
+# ## not_match
+#
+# Succeed if a string **does not** match a pattern
+#
+#     like "^\\d+$" "1234" "Only numbers"
+not_match() {
+    local pattern string message
+    pattern="$1"; string="$2"; message="$3"
+    message=${message:-(unnamed like assertion)}
+    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
+    if [[ "$?" = 0 ]];then
+        fail "Like '$pattern': '$string'"
+    else
+        pass "Not like '$pattern': '$string'"
     fi
 }

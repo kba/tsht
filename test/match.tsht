@@ -1,0 +1,8 @@
+#!/usr/bin/env tsht
+
+plan 4
+
+match "^\\d+" "1234"
+match "^\\d+$" "1234"
+not_match "^\\d+$" "a1234"
+match "^a\\d+$" "a1234"
