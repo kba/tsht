@@ -24,7 +24,7 @@ if [[ -n "$1" ]];then
     fi
 else
     cd "$TSHTLIB/.."
-    TESTS=($(find . -type f -name '*.tsht'))
+    TESTS=($(find . -type f -name '*.tsht' -not -path '*/.tsht/*'))
 fi
 
 for t in "${TESTS[@]}";do
