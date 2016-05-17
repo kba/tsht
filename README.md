@@ -23,15 +23,8 @@ All tsht scripts should start with `#!/usr/bin/env tsht`
 Tsht scripts are executed in alphabetic order, so prefix the scripts you want
 to run early with a low number.
 
-## Utility functions
+## API
 
-### plan
+See the auto-generated docs in [./doc](./blob/master/doc)
 
-### ok
-
-### fail
-
-### equals
-
-### not_equals
-
+* [Core functions](./blob/master/doc/tsht-core.md)

@@ -4,6 +4,11 @@ _inc_curtest() {
     TEST_IDX=$((TEST_IDX + 1))
 }
 
+# ## plan
+#
+# Specify the number of planned tests
+#
+#     plan <number-of-tests>
 plan() {
     local max
     max="$1"
@@ -11,7 +16,16 @@ plan() {
     echo "$TEST_IDX..$TEST_PLAN"
 }
 
-# Test for equality
+# ## equals
+#
+# Test for equality of strings
+#
+#     equals <expected> <actual> [<message>]
+#
+# Example:
+#
+#     equals "2" 2 "two equals two"
+#     equals 2 "$(wc -l my-file)" "two lines in my-file"
 equals() {
     local expected actual message
     expected="$1"
@@ -26,6 +40,9 @@ equals() {
     fi
 }
 
+# ## not_equals
+#
+# Inverse of [equals](#equals).
 not_equals() {
     local expected actual message
     expected="$1"
@@ -40,6 +57,13 @@ not_equals() {
     fi
 }
 
+# ## fail
+#
+# Fail unconditionally
+#
+#     fail <message> [<additional-output>]
+#
+# The additional output will be prefixed with `#`.
 fail() {
     local message diag
     message="$1"
@@ -53,7 +77,13 @@ fail() {
     return 42
 }
 
+# ## ok
+#
+# Succeed unconditionally.
+#
+# See [fail](#fail)
 ok() {
+    local message diag
     message="$1"
     # shellcheck disable=SC2001
     # diag=${output//^/#}
@@ -64,6 +94,16 @@ ok() {
     echo -e "ok $TEST_IDX - $message$diag"
 }
 
+# ## exec_fail
+#
+# Execute a command (or function) and succeed when its return code matches the
+# parameter <expected-return>
+#
+#     exec_fail <expected-return> [<cmd-args>...]
+#
+# Example
+#
+#     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
 exec_fail() {
     local output expected_return
     expected_return=$1
@@ -72,6 +112,13 @@ exec_fail() {
     equals "$?" "$expected_return" "Failed as expected: $*"
 }
 
+# ## exec_ok
+#
+# Execute a command (or function) and succeed when it returns zero.
+#
+# Example
+#
+#     exec_ok "ls" "-la"
 exec_ok() {
     local output
     output=$("$@" 2>&1)
@@ -82,6 +129,11 @@ exec_ok() {
     fi
 }
 
+# ## file_exists
+#
+# Succeed if a file (or folder or symlink...) exists.
+#
+#     file_exists ".git"
 file_exists() {
     file="$1"
     if [[ -e "$file" ]];then
@@ -91,6 +143,9 @@ file_exists() {
     fi
 }
 
+# ## file_not_empty
+#
+# Succeed if a file exists and is a non-empty file.
 file_not_empty() {
     file="$1"
     if [[ -s "$file" ]];then
