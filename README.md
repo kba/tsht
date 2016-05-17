@@ -4,6 +4,26 @@ A tiny shell-script based testing framework
 
 [![Build Status](https://travis-ci.org/kba/tsht.svg?branch=master)](https://travis-ci.org/kba/tsht)
 
+## Installation
+
+In general you don't have to install `tsht`, simply [add the wrapper script](#usage) to your project.
+
+To execute tsht scripts without the runner, you will need to have `tsht` in
+your `$PATH`. You can either set `$PATH` up manually to include the directory that contains the
+`tsht` wrapper or clone this repository and use the `Makefile`.
+
+To install system-wide:
+
+```
+sudo make install
+```
+
+To install to your home directory:
+
+```
+make PREFIX=$HOME/.local install
+```
+
 ## Usage
 
 1. Create a test directory, e.g. `test`
