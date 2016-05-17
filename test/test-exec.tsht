@@ -1,0 +1,14 @@
+#!/usr/bin/env tsht
+
+plan 5
+
+test_file="does-not-exist"
+
+exec_fail 2 "ls" "$test_file"
+exec_ok "touch" "$test_file"
+file_exists "$test_file"
+echo "foo" > $test_file
+file_not_empty "$test_file"
+equals "bar" "$(cat "$test_file")"
+
+rm $test_file
