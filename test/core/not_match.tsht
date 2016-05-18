@@ -1,0 +1,5 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+not_match "^\\d+$" "a1234"

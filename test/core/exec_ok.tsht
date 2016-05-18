@@ -1,0 +1,9 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+test_file="does-not-exist"
+
+exec_ok "touch" "$test_file"
+
+rm $test_file

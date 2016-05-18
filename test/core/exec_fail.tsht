@@ -1,0 +1,7 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+test_file="does-not-exist"
+
+exec_fail 2 "ls" "$test_file"

@@ -1,0 +1,5 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+not_equals $((2+2)) 5 "1984 test"

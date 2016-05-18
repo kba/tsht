@@ -1,10 +1,6 @@
 #!/bin/bash
 
-_inc_curtest() {
-    TEST_IDX=$((TEST_IDX + 1))
-}
-
-# ## plan
+# ### plan
 #
 # Specify the number of planned assertions
 #
@@ -16,7 +12,7 @@ plan() {
     echo "1..$((TEST_PLAN + 1))"
 }
 
-# ## equals
+# ### equals
 #
 # Test for equality of strings
 #
@@ -32,7 +28,7 @@ equals() {
     actual="$2"
     message="$3"
     message=${message:-(unnamed equals assertion)}
-    _inc_curtest
+    TEST_IDX=$((TEST_IDX + 1))
     if [[ "$expected" = "$actual" ]];then
         echo "ok $TEST_IDX - $message"
     else
@@ -40,7 +36,7 @@ equals() {
     fi
 }
 
-# ## not_equals
+# ### not_equals
 #
 # Inverse of [equals](#equals).
 not_equals() {
@@ -49,7 +45,7 @@ not_equals() {
     actual="$2"
     message="$3"
     message=${message:-(unnamed not_equals assertion)}
-    _inc_curtest
+    TEST_IDX=$((TEST_IDX + 1))
     if [[ "$expected" -ne "$actual" ]];then
         echo "ok $TEST_IDX - $message"
     else
@@ -57,7 +53,7 @@ not_equals() {
     fi
 }
 
-# ## fail
+# ### fail
 #
 # Fail unconditionally
 #
@@ -72,12 +68,12 @@ fail() {
     if [[ -n "$2" ]];then
         diag="\n$(echo "$2"|sed 's/^/#/g')"
     fi
-    _inc_curtest
+    TEST_IDX=$((TEST_IDX + 1))
     echo -e "not ok $TEST_IDX - $message$diag"
     return 42
 }
 
-# ## pass
+# ### pass
 #
 # Succeed unconditionally.
 #
@@ -90,11 +86,11 @@ pass() {
     if [[ -n "$2" ]];then
         diag="\n$(echo "$2"|sed 's/^/#/g')"
     fi
-    _inc_curtest
+    TEST_IDX=$((TEST_IDX + 1))
     echo -e "ok $TEST_IDX - $message$diag"
 }
 
-# ## exec_fail
+# ### exec_fail
 #
 # Execute a command (or function) and succeed when its return code matches the
 # parameter <expected-return>
@@ -112,7 +108,7 @@ exec_fail() {
     equals "$?" "$expected_return" "Failed as expected: $*"
 }
 
-# ## exec_ok
+# ### exec_ok
 #
 # Execute a command (or function) and succeed when it returns zero.
 #
@@ -129,7 +125,7 @@ exec_ok() {
     fi
 }
 
-# ## file_exists
+# ### file_exists
 #
 # Succeed if a file (or folder or symlink...) exists.
 #
@@ -144,7 +140,7 @@ file_exists() {
     fi
 }
 
-# ## file_not_empty
+# ### file_not_empty
 #
 # Succeed if a file exists and is a non-empty file.
 file_not_empty() {
@@ -157,11 +153,11 @@ file_not_empty() {
     fi
 }
 
-# ## match
+# ### match
 #
 # Succeed if a string matches a pattern
 #
-#     like "^\\d+$" "1234" "Only numbers"
+#     match "^\\d+$" "1234" "Only numbers"
 match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
@@ -174,11 +170,11 @@ match() {
     fi
 }
 
-# ## not_match
+# ### not_match
 #
 # Succeed if a string **does not** match a pattern
 #
-#     like "^\\d+$" "1234" "Only numbers"
+#     not_match "^\\d+$" "abcd" "Only numbers"
 not_match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
@@ -191,7 +187,7 @@ not_match() {
     fi
 }
 
-# ## ok
+# ### ok
 #
 # Succeed if the first argument is a non-empty non-zero string
 ok() {
@@ -205,7 +201,7 @@ ok() {
     fi
 }
 
-# ## not_ok
+# ### not_ok
 #
 # Succeed if the first argument is an empty string or zero.
 not_ok() {

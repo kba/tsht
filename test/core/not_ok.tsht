@@ -1,7 +1,6 @@
 #!/usr/bin/env tsht
 
-plan 2
+plan 1
 
-ok "$(ls $0)" "Me testing my existence"
 not_ok "$(ls does-not-exist-beep 2>/dev/null)" "No such file, hooray!"
 

@@ -1,0 +1,11 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+test_file="does-not-exist"
+
+echo "foo" > $test_file
+
+file_exists "$test_file"
+
+rm $test_file

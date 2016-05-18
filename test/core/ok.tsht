@@ -1,0 +1,6 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+ok "$(ls $0)" "Me testing my existence"
+

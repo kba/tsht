@@ -1,25 +1,17 @@
-# API of tsht-core.sh
 
-- [plan](#plan)
-- [equals](#equals)
-- [not_equals](#not_equals)
-- [fail](#fail)
-- [pass](#pass)
-- [exec_fail](#exec_fail)
-- [exec_ok](#exec_ok)
-- [file_exists](#file_exists)
-- [file_not_empty](#file_not_empty)
-- [match](#match)
-- [not_match](#not_match)
-- [ok](#ok)
-- [not_ok](#not_ok)
+### plan
 
-## plan
+[source](./tsht-core.sh#L3)
+[test](./test/core/plan.tsht)
 
 Specify the number of planned assertions
 
     plan <number-of-tests>
-## equals
+
+### equals
+
+[source](./tsht-core.sh#L15)
+[test](./test/core/equals.tsht)
 
 Test for equality of strings
 
@@ -29,22 +21,38 @@ Example:
 
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
-## not_equals
+
+### not_equals
+
+[source](./tsht-core.sh#L39)
+[test](./test/core/not_equals.tsht)
 
 Inverse of [equals](#equals).
-## fail
+
+### fail
+
+[source](./tsht-core.sh#L56)
+[test](./test/core/fail.tsht)
 
 Fail unconditionally
 
     fail <message> [<additional-output>]
 
 The additional output will be prefixed with `#`.
-## pass
+
+### pass
+
+[source](./tsht-core.sh#L76)
+[test](./test/core/pass.tsht)
 
 Succeed unconditionally.
 
 See [fail](#fail)
-## exec_fail
+
+### exec_fail
+
+[source](./tsht-core.sh#L93)
+[test](./test/core/exec_fail.tsht)
 
 Execute a command (or function) and succeed when its return code matches the
 parameter <expected-return>
@@ -54,34 +62,62 @@ parameter <expected-return>
 Example
 
     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
-## exec_ok
+
+### exec_ok
+
+[source](./tsht-core.sh#L111)
+[test](./test/core/exec_ok.tsht)
 
 Execute a command (or function) and succeed when it returns zero.
 
 Example
 
     exec_ok "ls" "-la"
-## file_exists
+
+### file_exists
+
+[source](./tsht-core.sh#L128)
+[test](./test/core/file_exists.tsht)
 
 Succeed if a file (or folder or symlink...) exists.
 
     file_exists ".git"
-## file_not_empty
+
+### file_not_empty
+
+[source](./tsht-core.sh#L143)
+[test](./test/core/file_not_empty.tsht)
 
 Succeed if a file exists and is a non-empty file.
-## match
+
+### match
+
+[source](./tsht-core.sh#L156)
+[test](./test/core/match.tsht)
 
 Succeed if a string matches a pattern
 
-    like "^\\d+$" "1234" "Only numbers"
-## not_match
+    match "^\\d+$" "1234" "Only numbers"
+
+### not_match
+
+[source](./tsht-core.sh#L173)
+[test](./test/core/not_match.tsht)
 
 Succeed if a string **does not** match a pattern
 
-    like "^\\d+$" "1234" "Only numbers"
-## ok
+    not_match "^\\d+$" "abcd" "Only numbers"
+
+### ok
+
+[source](./tsht-core.sh#L190)
+[test](./test/core/ok.tsht)
 
 Succeed if the first argument is a non-empty non-zero string
-## not_ok
+
+### not_ok
+
+[source](./tsht-core.sh#L204)
+[test](./test/core/not_ok.tsht)
 
 Succeed if the first argument is an empty string or zero.
