@@ -69,6 +69,7 @@ fail() {
         diag="\n$(echo "$2"|sed 's/^/#/g')"
     fi
     TEST_IDX=$((TEST_IDX + 1))
+    TEST_FAILED=$((TEST_FAILED + 1))
     echo -e "not ok $TEST_IDX - $message$diag"
     return 42
 }
