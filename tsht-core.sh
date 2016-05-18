@@ -28,11 +28,10 @@ equals() {
     actual="$2"
     message="$3"
     message=${message:-(unnamed equals assertion)}
-    TEST_IDX=$((TEST_IDX + 1))
     if [[ "$expected" = "$actual" ]];then
-        echo "ok $TEST_IDX - $message"
+        pass "$message"
     else
-        echo "not ok $TEST_IDX - $message ($expected != $actual)"
+        fail "$message ($expected != $actual)"
     fi
 }
 
@@ -45,11 +44,10 @@ not_equals() {
     actual="$2"
     message="$3"
     message=${message:-(unnamed not_equals assertion)}
-    TEST_IDX=$((TEST_IDX + 1))
     if [[ "$expected" -ne "$actual" ]];then
-        echo "ok $TEST_IDX - $message"
+        pass "$message"
     else
-        echo "not ok $TEST_IDX - $message ($expected != $actual)"
+        fail "$message ($expected != $actual)"
     fi
 }
 

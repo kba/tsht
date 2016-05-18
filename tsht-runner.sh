@@ -42,14 +42,14 @@ else
     done
 fi
 
-export TEST_PLAN=0
-export TEST_IDX=0
-export TEST_FAILED=0
 export PATH=$(readlink "$(dirname "$0")"/..):$PATH
 total_failed=0
 for t in "${TESTS[@]}";do
     echo "# Testing $t"
     (
+        TEST_PLAN=0
+        TEST_IDX=0
+        TEST_FAILED=0
         source "$TSHTLIB/tsht-core.sh"
         cd "$(dirname $t)"
         source "$(basename $t)"
@@ -58,9 +58,7 @@ for t in "${TESTS[@]}";do
         else
             equals "$TEST_PLAN" "$TEST_IDX" "Planned number of tests"
         fi
-        if [[ "$TEST_FAILED" != 0 ]];then
-            exit "$TEST_FAILED"
-        fi
+        exit "$TEST_FAILED"
     )
     total_failed=$((total_failed + $?))
 done
