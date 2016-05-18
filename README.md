@@ -37,7 +37,7 @@ In general you don't have to install `tsht`, simply [add the wrapper script](#pe
 1. Create a test directory, e.g. `test`
 2. Download the wrapper script `cd test && wget 'https://cdn.rawgit.com/kba/tsht/master/tsht'`
 3. Create your unit tests
-4. Execute all tests using `./tsht` or a single test using `./tsht path/to/unit-test.tsht`
+4. Execute all tests using `./tsht` or specific tests using `./tsht <path/to/unit-test.tsht>...`
 
 The first time you execute the wrapper script, it will clone this repository to
 `.tsht` and execute the runner. Whenever you want to update the tsht framework,

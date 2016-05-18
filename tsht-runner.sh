@@ -1,12 +1,12 @@
 #!/bin/bash
 
 if [[ -z "$TSHTLIB" ]];then
-    echo "\$TSHTLIB is not set, export it or use the runner.sh"
+    echo "\$TSHTLIB is not set, export it or use the 'tsht' wrapper script."
     exit 201
 fi
 
 usage() {
-    echo "Usage: $0 [-h] [<path/to/unit.tsht>]"
+    echo "Usage: tsht [-h] [<path/to/unit.tsht>...]"
 }
 
 while [[ "$1" =~ ^- ]];do
@@ -15,6 +15,9 @@ while [[ "$1" =~ ^- ]];do
             shift
             break
             ;;
+        # --version|-V)
+        #     break
+        #     ;;
         --help|-h)
             usage
             exit
@@ -24,24 +27,25 @@ done
 
 declare -a TESTS
 
-if [[ -n "$1" ]];then
-    if [[ -e "$1" ]];then
-        TESTS=("$1")
-    else
-        usage 
-        echo "!! No such file: '$1' !!"
-        exit 1
-    fi
-else
+if [[ -z "$1" ]];then
     cd "$TSHTLIB/.."
     TESTS=($(find . -type f -name '*.tsht' -not -path '*/.tsht/*'))
+else
+    while [[ -n "$1" ]];do
+        if [[ ! -e "$1" ]];then
+            usage 
+            echo "!! No such file: '$1' !!"
+            exit 1
+        fi
+        TESTS+=("$1")
+        shift
+    done
 fi
 
 export TEST_PLAN=0
 export TEST_IDX=0
 export PATH=$(readlink "$(dirname "$0")"/..):$PATH
 for t in "${TESTS[@]}";do
-    echo "TAP version 13"
     echo "# Testing $t"
     (
         source "$TSHTLIB/tsht-core.sh"
