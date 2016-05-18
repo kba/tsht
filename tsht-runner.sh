@@ -37,15 +37,13 @@ else
     TESTS=($(find . -type f -name '*.tsht' -not -path '*/.tsht/*'))
 fi
 
+export TEST_PLAN=0
+export TEST_IDX=0
+export PATH=$(readlink "$(dirname "$0")"/..):$PATH
 for t in "${TESTS[@]}";do
-    echo "#"
+    echo "TAP version 13"
     echo "# Testing $t"
-    echo "#"
-    export PATH=$(readlink "$(dirname "$0")"/..):$PATH
     (
-
-        TEST_IDX=0
-        TEST_PLAN=0
         source "$TSHTLIB/tsht-core.sh"
         cd "$(dirname $t)"
         source "$(basename $t)"
