@@ -62,4 +62,7 @@ for t in "${TESTS[@]}";do
     )
     total_failed=$((total_failed + $?))
 done
-exit $total_failed
+if [[ "$total_failed" != 0 ]];then
+    echo "# Failed $total_failed tests"
+    exit 1;
+fi
