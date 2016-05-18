@@ -58,7 +58,11 @@ for t in "${TESTS[@]}";do
         else
             equals "$TEST_PLAN" "$TEST_IDX" "Planned number of tests"
         fi
-        exit "$TEST_FAILED"
+        if [[ "$TEST_FAILED" != 0 ]];then
+            exit 1
+        else
+            exit 0
+        fi
     )
     total_failed=$((total_failed + $?))
 done
