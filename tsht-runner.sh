@@ -46,6 +46,7 @@ export TEST_PLAN=0
 export TEST_IDX=0
 export TEST_FAILED=0
 export PATH=$(readlink "$(dirname "$0")"/..):$PATH
+total_failed=0
 for t in "${TESTS[@]}";do
     echo "# Testing $t"
     (
@@ -58,7 +59,9 @@ for t in "${TESTS[@]}";do
             equals "$TEST_PLAN" "$TEST_IDX" "Planned number of tests"
         fi
         if [[ "$TEST_FAILED" != 0 ]];then
-            exit 103
+            exit "$TEST_FAILED"
         fi
     )
+    total_failed=$((total_failed + $?))
 done
+exit $total_failed
