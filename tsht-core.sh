@@ -12,8 +12,8 @@ _inc_curtest() {
 plan() {
     local max
     max="$1"
-    TEST_PLAN=$max
-    echo "$TEST_IDX..$TEST_PLAN"
+    TEST_PLAN=$((TEST_PLAN + max))
+    echo "1..$((TEST_PLAN + 1))"
 }
 
 # ## equals
