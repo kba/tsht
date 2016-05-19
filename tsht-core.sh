@@ -1,4 +1,9 @@
 #!/bin/bash
+i_2="  "
+i_4="${i_2}${i_2}"
+i_6="${i_4}${i_2}"
+i_8="${i_6}${i_2}"
+i_10="${i_8}${i_2}"
 
 # ### plan
 #
@@ -64,7 +69,7 @@ fail() {
     # shellcheck disable=SC2001
     # diag=${output//^/#}
     if [[ -n "$2" ]];then
-        diag="\n$(echo "$2"|sed 's/^/#/g')"
+        diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
     fi
     TEST_IDX=$((TEST_IDX + 1))
     TEST_FAILED=$((TEST_FAILED + 1))
@@ -83,7 +88,7 @@ pass() {
     # shellcheck disable=SC2001
     # diag=${output//^/#}
     if [[ -n "$2" ]];then
-        diag="\n$(echo "$2"|sed 's/^/#/g')"
+        diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
     fi
     TEST_IDX=$((TEST_IDX + 1))
     echo -e "ok $TEST_IDX - $message$diag"
