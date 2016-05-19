@@ -62,4 +62,5 @@ for t in "${TESTS[@]}";do
     )
     total_failed=$((total_failed + $?))
 done
+echo "# Failed $total_failed tests"
 exit $total_failed
