@@ -168,9 +168,11 @@ match() {
     message=${message:-(unnamed match assertion)}
     echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
     if [[ "$?" != 0 ]];then
-        fail "Not like '$pattern': '$string'"
+        fail "Does ot match '$pattern': '$string'"
     else
-        pass "Like '$pattern': '$string'"
+        string=${string//$'\n'/}
+        string=${string:0:50}
+        pass "Matches '$pattern': '${string}...'"
     fi
 }
 
@@ -187,6 +189,8 @@ not_match() {
     if [[ "$?" = 0 ]];then
         fail "Like '$pattern': '$string'"
     else
+        string=${string//$'\n'/}
+        string=${string:0:50}
         pass "Not like '$pattern': '$string'"
     fi
 }
