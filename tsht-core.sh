@@ -86,11 +86,11 @@ pass() {
     local message diag
     message="$1"
     # shellcheck disable=SC2001
-    # diag=${output//^/#}
-    if [[ -n "$2" ]];then
-        diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
-    fi
+    # if [[ -n "$2" ]];then
+        # diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
+    # fi
     TEST_IDX=$((TEST_IDX + 1))
+    # echo -e "ok $TEST_IDX - $message$diag"
     echo -e "ok $TEST_IDX - $message$diag"
 }
 
