@@ -13,20 +13,23 @@ A tiny shell-script based TAP-compliant testing framework
 	* [Example](#example)
 	* [Vim integration](#vim-integration)
 * [Pretty Output](#pretty-output)
-* [API](#api)
-	* [plan](#plan)
-	* [equals](#equals)
-	* [not_equals](#not_equals)
-	* [fail](#fail)
-	* [pass](#pass)
-	* [exec_fail](#exec_fail)
-	* [exec_ok](#exec_ok)
-	* [file_exists](#file_exists)
-	* [file_not_empty](#file_not_empty)
-	* [match](#match)
-	* [not_match](#not_match)
-	* [ok](#ok)
-	* [not_ok](#not_ok)
+* [API](#api) <!-- Begin API TOC -->
+	* [core](#core)
+		* [plan](#plan)
+		* [fail](#fail)
+		* [pass](#pass)
+		* [equals](#equals)
+		* [not_equals](#not_equals)
+		* [exec_fail](#exec_fail)
+		* [exec_ok](#exec_ok)
+		* [match](#match)
+		* [not_match](#not_match)
+		* [ok](#ok)
+		* [not_ok](#not_ok)
+	* [file](#file)
+		* [file_exists](#file_exists)
+		* [file_not_empty](#file_not_empty)
+<!-- End API TOC -->
 
 ## Installation
 
@@ -197,20 +200,45 @@ $ ./test/tsht | tap-spec
 
 ## API
 
-<!-- vim :r!./doc/apidoc.pl tsht-core.sh -->
+<!-- Begin API -->
 
-### plan
+### core
+This library the core functions of tsht. It is always included and includes
+the most commonly used libraries:
+* [file](#file)
 
-[source](./tsht-core.sh#L3)
+##### plan
+
+[source](./lib/core.sh#L14)
 [test](./test/core/plan.tsht)
 
 Specify the number of planned assertions
 
     plan <number-of-tests>
 
-### equals
+##### fail
 
-[source](./tsht-core.sh#L15)
+[source](./lib/core.sh#L26)
+[test](./test/core/fail.tsht)
+
+Fail unconditionally
+
+    fail <message> [<additional-output>]
+
+The additional output will be prefixed with `#`.
+
+##### pass
+
+[source](./lib/core.sh#L47)
+[test](./test/core/pass.tsht)
+
+Succeed unconditionally.
+
+See [fail](#fail)
+
+##### equals
+
+[source](./lib/core.sh#L64)
 [test](./test/core/equals.tsht)
 
 Test for equality of strings
@@ -222,36 +250,16 @@ Example:
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
 
-### not_equals
+##### not_equals
 
-[source](./tsht-core.sh#L39)
+[source](./lib/core.sh#L87)
 [test](./test/core/not_equals.tsht)
 
 Inverse of [equals](#equals).
 
-### fail
+##### exec_fail
 
-[source](./tsht-core.sh#L56)
-[test](./test/core/fail.tsht)
-
-Fail unconditionally
-
-    fail <message> [<additional-output>]
-
-The additional output will be prefixed with `#`.
-
-### pass
-
-[source](./tsht-core.sh#L76)
-[test](./test/core/pass.tsht)
-
-Succeed unconditionally.
-
-See [fail](#fail)
-
-### exec_fail
-
-[source](./tsht-core.sh#L93)
+[source](./lib/core.sh#L103)
 [test](./test/core/exec_fail.tsht)
 
 Execute a command (or function) and succeed when its return code matches the
@@ -263,9 +271,9 @@ Example
 
     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
 
-### exec_ok
+##### exec_ok
 
-[source](./tsht-core.sh#L111)
+[source](./lib/core.sh#L121)
 [test](./test/core/exec_ok.tsht)
 
 Execute a command (or function) and succeed when it returns zero.
@@ -274,50 +282,53 @@ Example
 
     exec_ok "ls" "-la"
 
-### file_exists
+##### match
 
-[source](./tsht-core.sh#L128)
-[test](./test/core/file_exists.tsht)
-
-Succeed if a file (or folder or symlink...) exists.
-
-    file_exists ".git"
-
-### file_not_empty
-
-[source](./tsht-core.sh#L143)
-[test](./test/core/file_not_empty.tsht)
-
-Succeed if a file exists and is a non-empty file.
-
-### match
-
-[source](./tsht-core.sh#L156)
+[source](./lib/core.sh#L138)
 [test](./test/core/match.tsht)
 
 Succeed if a string matches a pattern
 
     match "^\\d+$" "1234" "Only numbers"
 
-### not_match
+##### not_match
 
-[source](./tsht-core.sh#L173)
+[source](./lib/core.sh#L157)
 [test](./test/core/not_match.tsht)
 
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
 
-### ok
+##### ok
 
-[source](./tsht-core.sh#L190)
+[source](./lib/core.sh#L176)
 [test](./test/core/ok.tsht)
 
 Succeed if the first argument is a non-empty non-zero string
 
-### not_ok
+##### not_ok
 
-[source](./tsht-core.sh#L204)
+[source](./lib/core.sh#L190)
 [test](./test/core/not_ok.tsht)
 
 Succeed if the first argument is an empty string or zero.
+
+### file
+
+##### file_exists
+
+[source](./lib/file.sh#L3)
+[test](./test/file/file_exists.tsht)
+
+Succeed if a file (or folder or symlink...) exists.
+
+    file_exists ".git"
+
+##### file_not_empty
+
+[source](./lib/file.sh#L18)
+[test](./test/file/file_not_empty.tsht)
+
+Succeed if a file exists and is a non-empty file.
+<!-- End API -->

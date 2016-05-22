@@ -5,6 +5,15 @@ i_6="${i_4}${i_2}"
 i_8="${i_6}${i_2}"
 i_10="${i_8}${i_2}"
 
+# This library the core functions of tsht. It is always included and includes
+# the most commonly used libraries:
+
+# * [string](#string)
+# * [file](#file)
+
+source "$TSHTLIB/lib/string.sh"
+source "$TSHTLIB/lib/file.sh"
+
 # ### plan
 #
 # Specify the number of planned assertions
@@ -126,34 +135,6 @@ exec_ok() {
         pass "Executed: $*"
     else
         fail "Failed: $*" "$output"
-    fi
-}
-
-# ### file_exists
-#
-# Succeed if a file (or folder or symlink...) exists.
-#
-#     file_exists ".git"
-file_exists() {
-    local file
-    file="$1"
-    if [[ -e "$file" ]];then
-        pass "File exists: $file"
-    else
-        fail "File does not exist: $file"
-    fi
-}
-
-# ### file_not_empty
-#
-# Succeed if a file exists and is a non-empty file.
-file_not_empty() {
-    local file
-    file="$1"
-    if [[ -s "$file" ]];then
-        pass "Not empty file: $file"
-    else
-        fail "Empty file: $file"
     fi
 }
 
