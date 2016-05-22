@@ -1,0 +1,6 @@
+#!/usr/bin/env tsht
+
+equals 0 1
+equals 1 1
+
+# vim: ft=tsht

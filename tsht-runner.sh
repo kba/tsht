@@ -7,7 +7,10 @@ if [[ -z "$TSHTLIB" ]];then
 fi
 
 usage() {
-    echo "Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]"
+    echo "Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]
+    Options:
+        -h|--help   Show this help
+        --color     Highlight passing/failing tests in green/red"
 }
 
 while [[ "$1" =~ ^- ]];do

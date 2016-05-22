@@ -1,0 +1,7 @@
+#!/usr/bin/env
+TEST_PATH="${BASH_SOURCE[0]}"
+
+
+ok "$TSHTLIB" "TSHTLIB is set"
+equals "$TSHTLIB" "$(readlink -f $(dirname $TEST_PATH)/../..)/.tsht" "TSHTLIB is relative to this dir"
+equals "$0" "$TSHTLIB/tsht-runner.sh" "$$0 is the right tsht-runner.sh"

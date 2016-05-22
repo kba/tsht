@@ -1,0 +1,8 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+$0 --color test > actual
+equals "$(cat actual)" "$(cat expected)" "Color output as expected"
+rm actual
+

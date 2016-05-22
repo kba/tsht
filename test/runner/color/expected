@@ -1,0 +1,5 @@
+# Testing color-test.tsht.skip
+[1;31mnot ok[0;39m 1 - (unnamed equals assertion) (0 != 1)
+[1;32mok[0;39m 2 - (unnamed equals assertion)
+1..2
+# Failed 0 tests

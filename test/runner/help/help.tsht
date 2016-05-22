@@ -1,0 +1,9 @@
+#!/usr/bin/env tsht
+
+plan 3
+
+exec_ok "$0" "--help"
+exec_ok "$0" "-h"
+equals "$($0 --help)" "$($0 -h)"  "-h == --help"
+help_out="$(tsht --help)"
+match "--color" "$help_out" "Info on --color"

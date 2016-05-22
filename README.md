@@ -29,6 +29,13 @@ A tiny shell-script based TAP-compliant testing framework
 	* [file](#file)
 		* [file_exists](#file_exists)
 		* [file_not_empty](#file_not_empty)
+	* [string](#string)
+		* [ok](#ok)
+		* [not_ok](#not_ok)
+		* [equals](#equals)
+		* [not_equals](#not_equals)
+		* [match](#match)
+		* [not_match](#not_match)
 <!-- End API TOC -->
 
 ## Installation
@@ -205,12 +212,13 @@ $ ./test/tsht | tap-spec
 ### core
 This library the core functions of tsht. It is always included and includes
 the most commonly used libraries:
+* [string](#string)
 * [file](#file)
 
 ##### plan
 
-[source](./lib/core.sh#L14)
-[test](./test/core/plan.tsht)
+[source](./lib/core.sh#L17)
+[test](./test/api/core/plan.tsht)
 
 Specify the number of planned assertions
 
@@ -218,8 +226,8 @@ Specify the number of planned assertions
 
 ##### fail
 
-[source](./lib/core.sh#L26)
-[test](./test/core/fail.tsht)
+[source](./lib/core.sh#L29)
+[test](./test/api/core/fail.tsht)
 
 Fail unconditionally
 
@@ -229,8 +237,8 @@ The additional output will be prefixed with `#`.
 
 ##### pass
 
-[source](./lib/core.sh#L47)
-[test](./test/core/pass.tsht)
+[source](./lib/core.sh#L50)
+[test](./test/api/core/pass.tsht)
 
 Succeed unconditionally.
 
@@ -238,8 +246,8 @@ See [fail](#fail)
 
 ##### equals
 
-[source](./lib/core.sh#L64)
-[test](./test/core/equals.tsht)
+[source](./lib/core.sh#L67)
+[test](./test/api/core/equals.tsht)
 
 Test for equality of strings
 
@@ -252,15 +260,15 @@ Example:
 
 ##### not_equals
 
-[source](./lib/core.sh#L87)
-[test](./test/core/not_equals.tsht)
+[source](./lib/core.sh#L90)
+[test](./test/api/core/not_equals.tsht)
 
 Inverse of [equals](#equals).
 
 ##### exec_fail
 
-[source](./lib/core.sh#L103)
-[test](./test/core/exec_fail.tsht)
+[source](./lib/core.sh#L106)
+[test](./test/api/core/exec_fail.tsht)
 
 Execute a command (or function) and succeed when its return code matches the
 parameter <expected-return>
@@ -273,8 +281,8 @@ Example
 
 ##### exec_ok
 
-[source](./lib/core.sh#L121)
-[test](./test/core/exec_ok.tsht)
+[source](./lib/core.sh#L124)
+[test](./test/api/core/exec_ok.tsht)
 
 Execute a command (or function) and succeed when it returns zero.
 
@@ -284,8 +292,8 @@ Example
 
 ##### match
 
-[source](./lib/core.sh#L138)
-[test](./test/core/match.tsht)
+[source](./lib/core.sh#L141)
+[test](./test/api/core/match.tsht)
 
 Succeed if a string matches a pattern
 
@@ -293,8 +301,8 @@ Succeed if a string matches a pattern
 
 ##### not_match
 
-[source](./lib/core.sh#L157)
-[test](./test/core/not_match.tsht)
+[source](./lib/core.sh#L160)
+[test](./test/api/core/not_match.tsht)
 
 Succeed if a string **does not** match a pattern
 
@@ -302,15 +310,15 @@ Succeed if a string **does not** match a pattern
 
 ##### ok
 
-[source](./lib/core.sh#L176)
-[test](./test/core/ok.tsht)
+[source](./lib/core.sh#L179)
+[test](./test/api/core/ok.tsht)
 
 Succeed if the first argument is a non-empty non-zero string
 
 ##### not_ok
 
-[source](./lib/core.sh#L190)
-[test](./test/core/not_ok.tsht)
+[source](./lib/core.sh#L193)
+[test](./test/api/core/not_ok.tsht)
 
 Succeed if the first argument is an empty string or zero.
 
@@ -319,7 +327,7 @@ Succeed if the first argument is an empty string or zero.
 ##### file_exists
 
 [source](./lib/file.sh#L3)
-[test](./test/file/file_exists.tsht)
+[test](./test/api/file/file_exists.tsht)
 
 Succeed if a file (or folder or symlink...) exists.
 
@@ -328,7 +336,63 @@ Succeed if a file (or folder or symlink...) exists.
 ##### file_not_empty
 
 [source](./lib/file.sh#L18)
-[test](./test/file/file_not_empty.tsht)
+[test](./test/api/file/file_not_empty.tsht)
 
 Succeed if a file exists and is a non-empty file.
+
+### string
+This library contains functions testing strings and numbers
+
+##### ok
+
+[source](./lib/string.sh#L5)
+[test](./test/api/string/ok.tsht)
+
+Succeed if the first argument is a non-empty non-zero string
+
+##### not_ok
+
+[source](./lib/string.sh#L19)
+[test](./test/api/string/not_ok.tsht)
+
+Succeed if the first argument is an empty string or zero.
+
+##### equals
+
+[source](./lib/string.sh#L32)
+[test](./test/api/string/equals.tsht)
+
+Test for equality of strings
+
+    equals <expected> <actual> [<message>]
+
+Example:
+
+    equals "2" 2 "two equals two"
+    equals 2 "$(wc -l my-file)" "two lines in my-file"
+
+##### not_equals
+
+[source](./lib/string.sh#L55)
+[test](./test/api/string/not_equals.tsht)
+
+Inverse of [equals](#equals).
+
+##### match
+
+[source](./lib/string.sh#L71)
+[test](./test/api/string/match.tsht)
+
+Succeed if a string matches a pattern
+
+    match "^\\d+$" "1234" "Only numbers"
+
+##### not_match
+
+[source](./lib/string.sh#L90)
+[test](./test/api/string/not_match.tsht)
+
+Succeed if a string **does not** match a pattern
+
+    not_match "^\\d+$" "abcd" "Only numbers"
 <!-- End API -->

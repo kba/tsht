@@ -34,7 +34,7 @@ for my $filename (@ARGV) {
             $toc .= "$toc_prefix\t* [$2](#$2)\n";
             $body .= "\n$heading_prefix$1 $2\n\n";
             $body .= "[source](./$filename#L$curline)\n";
-            $body .= "[test](./test/$lib/$2.tsht)\n";
+            $body .= "[test](./test/api/$lib/$2.tsht)\n";
         } elsif (/^#\s?(.*)/) {
             $body .= "$1\n";
         }
