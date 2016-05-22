@@ -1,6 +1,8 @@
 #!/usr/bin/env tsht
 
-plan 1
+plan 3
 
-not_ok "$(ls does-not-exist-beep 2>/dev/null)" "No such file, hooray!"
+not_ok "" "Empty string"
+not_ok 0 '0'
+not_ok "0" '"0"'
 

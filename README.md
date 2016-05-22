@@ -13,7 +13,9 @@ A tiny shell-script based TAP-compliant testing framework
 	* [Example](#example)
 	* [Vim integration](#vim-integration)
 * [Pretty Output](#pretty-output)
-* [API](#api) <!-- Begin API TOC -->
+* [API](#api)
+<!-- Begin API TOC -->
+
 	* [core](#core)
 		* [plan](#plan)
 		* [fail](#fail)
@@ -32,6 +34,7 @@ A tiny shell-script based TAP-compliant testing framework
 		* [not_equals](#not_equals)
 		* [match](#match)
 		* [not_match](#not_match)
+
 <!-- End API TOC -->
 
 ## Installation
@@ -207,6 +210,7 @@ $ ./test/tsht | tap-spec
 
 <!-- Begin API -->
 
+
 ### core
 This library the core functions of tsht. It is always included and includes
 the most commonly used libraries:
@@ -354,4 +358,6 @@ Succeed if a string matches a pattern
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
+
 <!-- End API -->
+
