@@ -18,12 +18,8 @@ A tiny shell-script based TAP-compliant testing framework
 		* [plan](#plan)
 		* [fail](#fail)
 		* [pass](#pass)
-		* [equals](#equals)
-		* [not_equals](#not_equals)
 		* [exec_fail](#exec_fail)
 		* [exec_ok](#exec_ok)
-		* [match](#match)
-		* [not_match](#not_match)
 		* [ok](#ok)
 		* [not_ok](#not_ok)
 	* [file](#file)
@@ -244,30 +240,9 @@ Succeed unconditionally.
 
 See [fail](#fail)
 
-##### equals
-
-[source](./lib/core.sh#L67)
-[test](./test/api/core/equals.tsht)
-
-Test for equality of strings
-
-    equals <expected> <actual> [<message>]
-
-Example:
-
-    equals "2" 2 "two equals two"
-    equals 2 "$(wc -l my-file)" "two lines in my-file"
-
-##### not_equals
-
-[source](./lib/core.sh#L90)
-[test](./test/api/core/not_equals.tsht)
-
-Inverse of [equals](#equals).
-
 ##### exec_fail
 
-[source](./lib/core.sh#L106)
+[source](./lib/core.sh#L67)
 [test](./test/api/core/exec_fail.tsht)
 
 Execute a command (or function) and succeed when its return code matches the
@@ -281,7 +256,7 @@ Example
 
 ##### exec_ok
 
-[source](./lib/core.sh#L124)
+[source](./lib/core.sh#L85)
 [test](./test/api/core/exec_ok.tsht)
 
 Execute a command (or function) and succeed when it returns zero.
@@ -290,34 +265,16 @@ Example
 
     exec_ok "ls" "-la"
 
-##### match
-
-[source](./lib/core.sh#L141)
-[test](./test/api/core/match.tsht)
-
-Succeed if a string matches a pattern
-
-    match "^\\d+$" "1234" "Only numbers"
-
-##### not_match
-
-[source](./lib/core.sh#L160)
-[test](./test/api/core/not_match.tsht)
-
-Succeed if a string **does not** match a pattern
-
-    not_match "^\\d+$" "abcd" "Only numbers"
-
 ##### ok
 
-[source](./lib/core.sh#L179)
+[source](./lib/core.sh#L102)
 [test](./test/api/core/ok.tsht)
 
 Succeed if the first argument is a non-empty non-zero string
 
 ##### not_ok
 
-[source](./lib/core.sh#L193)
+[source](./lib/core.sh#L116)
 [test](./test/api/core/not_ok.tsht)
 
 Succeed if the first argument is an empty string or zero.
@@ -345,21 +302,21 @@ This library contains functions testing strings and numbers
 
 ##### ok
 
-[source](./lib/string.sh#L5)
+[source](./lib/string.sh#L12)
 [test](./test/api/string/ok.tsht)
 
 Succeed if the first argument is a non-empty non-zero string
 
 ##### not_ok
 
-[source](./lib/string.sh#L19)
+[source](./lib/string.sh#L26)
 [test](./test/api/string/not_ok.tsht)
 
 Succeed if the first argument is an empty string or zero.
 
 ##### equals
 
-[source](./lib/string.sh#L32)
+[source](./lib/string.sh#L39)
 [test](./test/api/string/equals.tsht)
 
 Test for equality of strings
@@ -373,14 +330,14 @@ Example:
 
 ##### not_equals
 
-[source](./lib/string.sh#L55)
+[source](./lib/string.sh#L62)
 [test](./test/api/string/not_equals.tsht)
 
 Inverse of [equals](#equals).
 
 ##### match
 
-[source](./lib/string.sh#L71)
+[source](./lib/string.sh#L78)
 [test](./test/api/string/match.tsht)
 
 Succeed if a string matches a pattern
@@ -389,7 +346,7 @@ Succeed if a string matches a pattern
 
 ##### not_match
 
-[source](./lib/string.sh#L90)
+[source](./lib/string.sh#L95)
 [test](./test/api/string/not_match.tsht)
 
 Succeed if a string **does not** match a pattern
