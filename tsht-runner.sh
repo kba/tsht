@@ -5,7 +5,7 @@ echo-err() {
     echo "$@" >&2
 }
 if [[ -z "$TSHTLIB" ]];then
-    echo "\$TSHTLIB is not set, export it or use the 'tsht' wrapper script."
+    echo-err "\$TSHTLIB is not set, export it or use the 'tsht' wrapper script."
     exit 201
 fi
 
@@ -13,7 +13,8 @@ usage() {
     echo "Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]
     Options:
         -h|--help   Show this help
-        --color     Highlight passing/failing tests in green/red"
+        --color     Highlight passing/failing tests in green/red
+        --update    Update the tsht framework from git"
 }
 
 while [[ "$1" =~ ^- ]];do
@@ -26,6 +27,17 @@ while [[ "$1" =~ ^- ]];do
         #     ;;
         --color)
             USE_COLOR=1
+            ;;
+        --update)
+            cd "$TSHTLIB"
+            echo $PWD
+            git fetch origin master && git merge origin/master master
+            if [[ "$?" == 0 ]];then
+                echo-err "tsht updated";
+            else
+                 echo-err "tsht not updated"
+            fi
+            exit 0
             ;;
         --help|-h)
             usage
