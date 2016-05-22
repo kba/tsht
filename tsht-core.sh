@@ -17,6 +17,44 @@ plan() {
     echo "1..$((TEST_PLAN + 1))"
 }
 
+# ### fail
+#
+# Fail unconditionally
+#
+#     fail <message> [<additional-output>]
+#
+# The additional output will be prefixed with `#`.
+fail() {
+    local message diag
+    message="$1"
+    # shellcheck disable=SC2001
+    # diag=${output//^/#}
+    if [[ -n "$2" ]];then
+        diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
+    fi
+    TEST_IDX=$((TEST_IDX + 1))
+    TEST_FAILED=$((TEST_FAILED + 1))
+    echo -e "not ok $TEST_IDX - $message$diag"
+    return 1
+}
+
+# ### pass
+#
+# Succeed unconditionally.
+#
+# See [fail](#fail)
+pass() {
+    local message diag
+    message="$1"
+    # shellcheck disable=SC2001
+    # if [[ -n "$2" ]];then
+        # diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
+    # fi
+    TEST_IDX=$((TEST_IDX + 1))
+    # echo -e "ok $TEST_IDX - $message$diag"
+    echo -e "ok $TEST_IDX - $message$diag"
+}
+
 # ### equals
 #
 # Test for equality of strings
@@ -54,44 +92,6 @@ not_equals() {
     else
         fail "$message ($expected != $actual)"
     fi
-}
-
-# ### fail
-#
-# Fail unconditionally
-#
-#     fail <message> [<additional-output>]
-#
-# The additional output will be prefixed with `#`.
-fail() {
-    local message diag
-    message="$1"
-    # shellcheck disable=SC2001
-    # diag=${output//^/#}
-    if [[ -n "$2" ]];then
-        diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
-    fi
-    TEST_IDX=$((TEST_IDX + 1))
-    TEST_FAILED=$((TEST_FAILED + 1))
-    echo -e "not ok $TEST_IDX - $message$diag"
-    return 42
-}
-
-# ### pass
-#
-# Succeed unconditionally.
-#
-# See [fail](#fail)
-pass() {
-    local message diag
-    message="$1"
-    # shellcheck disable=SC2001
-    # if [[ -n "$2" ]];then
-        # diag="\n${i_4}---\n${i_4}diag: |\n$(echo "$2"|sed "s/^/${i_10}/g")\n${i_4}...\n"
-    # fi
-    TEST_IDX=$((TEST_IDX + 1))
-    # echo -e "ok $TEST_IDX - $message$diag"
-    echo -e "ok $TEST_IDX - $message$diag"
 }
 
 # ### exec_fail
