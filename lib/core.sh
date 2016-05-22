@@ -79,7 +79,7 @@ exec_fail() {
     expected_return=$1
     shift
     output=$("$@" 2>&1)
-    equals "$?" "$expected_return" "Failed as expected: $*"
+    equals "$?" "$expected_return" "Failed as expected ($expected_return) '$*'"
 }
 
 # ### exec_ok
