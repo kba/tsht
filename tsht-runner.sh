@@ -1,28 +1,38 @@
 #!/bin/bash
 
+USE_COLOR=0
+echo-err() {
+    echo "$@" >&2
+}
 if [[ -z "$TSHTLIB" ]];then
     echo "\$TSHTLIB is not set, export it or use the 'tsht' wrapper script."
     exit 201
 fi
 
 usage() {
-    echo "Usage: tsht [-h] [<path/to/unit.tsht>...]"
+    echo "Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]
+    Options:
+        -h|--help   Show this help
+        --color     Highlight passing/failing tests in green/red"
 }
 
 while [[ "$1" =~ ^- ]];do
     case "$1" in
         --)
-            shift
             break
             ;;
         # --version|-V)
         #     break
         #     ;;
+        --color)
+            USE_COLOR=1
+            ;;
         --help|-h)
             usage
             exit
             ;;
     esac
+    shift
 done
 
 declare -a TESTS
@@ -43,24 +53,37 @@ else
 fi
 
 export PATH=$(readlink "$(dirname "$0")"/..):$PATH
-total_failed=0
+export total_failed
 for t in "${TESTS[@]}";do
     echo "# Testing $t"
     (
         TEST_PLAN=0
         TEST_IDX=0
         TEST_FAILED=0
-        source "$TSHTLIB/tsht-core.sh"
+        source "$TSHTLIB/lib/core.sh"
         cd "$(dirname $t)"
         source "$(basename $t)"
         if [[ "$TEST_PLAN" == 0 ]];then
             echo "1..$TEST_IDX"
-        else
-            equals "$TEST_PLAN" "$TEST_IDX" "Planned number of tests"
         fi
         exit "$TEST_FAILED"
+    ) | (
+        failed=0
+        while read line;do 
+            if [[ "$line" =~ ^not.ok ]];then
+                failed=$((failed + 1))
+            fi
+            if [[ "$USE_COLOR" = 1 ]];then
+                echo "$line" \
+                    | sed 's/^ok/\x1b[1;32m&\x1b[0;39m/' \
+                    | sed 's/^not ok/\x1b[1;31m&\x1b[0;39m/'
+            else
+                echo "$line"
+            fi
+        done
+        exit $failed
     )
-    total_failed=$((total_failed + $?))
+    total_failed=$(( total_failed + $? ))
 done
 echo "# Failed $total_failed tests"
-exit $total_failed
+exit "$total_failed"

@@ -1,0 +1,6 @@
+#!/usr/bin/env tsht
+
+equals 0 1 "should pass"
+equals 1 1 "should fail"
+
+# vim: ft=tsht

@@ -13,20 +13,26 @@ A tiny shell-script based TAP-compliant testing framework
 	* [Example](#example)
 	* [Vim integration](#vim-integration)
 * [Pretty Output](#pretty-output)
-* [API](#api)
-	* [plan](#plan)
-	* [equals](#equals)
-	* [not_equals](#not_equals)
-	* [fail](#fail)
-	* [pass](#pass)
-	* [exec_fail](#exec_fail)
-	* [exec_ok](#exec_ok)
-	* [file_exists](#file_exists)
-	* [file_not_empty](#file_not_empty)
-	* [match](#match)
-	* [not_match](#not_match)
-	* [ok](#ok)
-	* [not_ok](#not_ok)
+* [API](#api) <!-- Begin API TOC -->
+	* [core](#core)
+		* [plan](#plan)
+		* [fail](#fail)
+		* [pass](#pass)
+		* [exec_fail](#exec_fail)
+		* [exec_ok](#exec_ok)
+		* [ok](#ok)
+		* [not_ok](#not_ok)
+	* [file](#file)
+		* [file_exists](#file_exists)
+		* [file_not_empty](#file_not_empty)
+	* [string](#string)
+		* [ok](#ok)
+		* [not_ok](#not_ok)
+		* [equals](#equals)
+		* [not_equals](#not_equals)
+		* [match](#match)
+		* [not_match](#not_match)
+<!-- End API TOC -->
 
 ## Installation
 
@@ -113,9 +119,25 @@ For the [tests of tsht itself](./test), it will produce output like this:
 $ ./test/tsht | tap-spec
 ```
 
-<!-- vim :!./test/tsht|tap-spec -->
+<!-- vim :r!./test/tsht|tap-spec -->
 
 ```
+  Testing ./runner/help/help.tsht
+
+    ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --help
+    ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh -h
+    ✔ -h == --help
+    ✔ Matches '--color': 'Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]<LF>    Options:<LF>        -h|--help   Show this help<LF>        --color     Highlight passing/failing tests in green/red'
+
+  Testing ./runner/color/color-test.tsht
+
+    ✔ Color output as expected
+
+  Testing ./runner/0tshtlib/tshtlib.tsht
+
+    ✔ TSHTLIB is set
+    ✔ TSHTLIB is relative to this dir
+    ✔ 58990 is the right tsht-runner.sh
 
   Testing ./file.tsht
 
@@ -124,115 +146,86 @@ $ ./test/tsht | tap-spec
     ✔ File exists: does-not-exist
     ✔ Not empty file: does-not-exist
     ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
 
-  Testing ./core/file_exists.tsht
-
-    ✔ File exists: does-not-exist
-    ✔ Planned number of tests
-
-  Testing ./core/match.tsht
-
-    ✔ Like '^\d+': '1234'
-    ✔ Like '^\d+$': '1234'
-    ✔ Like '^a\d+$': 'a1234'
-    ✔ Planned number of tests
-
-  Testing ./core/file_not_empty.tsht
-
-    ✔ Not empty file: does-not-exist
-    ✔ Planned number of tests
-
-  Testing ./core/not_ok.tsht
+  Testing ./api/core/not_ok.tsht
 
     ✔ No such file, hooray!
-    ✔ Planned number of tests
 
-  Testing ./core/equals.tsht
-
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
-
-  Testing ./core/not_match.tsht
-
-    ✔ Not like '^\d+$': 'a1234'
-    ✔ Planned number of tests
-
-  Testing ./core/exec_fail.tsht
+  Testing ./api/core/exec_fail.tsht
 
     ✔ Failed as expected: ls does-not-exist
-    ✔ Planned number of tests
 
-  Testing ./core/not_equals.tsht
-
-    ✔ 1984 test
-    ✔ Planned number of tests
-
-  Testing ./core/ok.tsht
+  Testing ./api/core/ok.tsht
 
     ✔ Me testing my existence
-    ✔ Planned number of tests
 
-  Testing ./core/exec_ok.tsht
+  Testing ./api/core/exec_ok.tsht
 
     ✔ Executed: touch does-not-exist
-    ✔ Planned number of tests
 
-  Testing ./options.tsht
+  Testing ./api/file/file_exists.tsht
 
-    ✔ Executed: tsht --help
-    ✔ Executed: tsht -h
+    ✔ File exists: does-not-exist
+
+  Testing ./api/file/file_not_empty.tsht
+
+    ✔ Not empty file: does-not-exist
+
+  Testing ./api/string/match.tsht
+
+    ✔ Matches '^d+': '1234'
+    ✔ Matches '^d+$': '1234'
+    ✔ Matches '^ad+$': 'a1234'
+
+  Testing ./api/string/equals.tsht
+
     ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
+    ✔ (unnamed equals assertion)
+    ✔ (unnamed equals assertion)
+    ✔ (unnamed equals assertion)
+
+  Testing ./api/string/not_match.tsht
+
+    ✔ Not like '^d+$': 'string'
+
+  Testing ./api/string/not_equals.tsht
+
+    ✔ 1984 test
+
+  Testing ./issues/issue_8.tsht
+
+    ✔ Matches '--foo': '--foo'
 
 
-  total:     35
-  passing:   35
-  duration:  20ms
+  total:     29
+  passing:   29
+  duration:  19ms
 
 ```
 
 ## API
 
-<!-- vim :r!./doc/apidoc.pl tsht-core.sh -->
+<!-- Begin API -->
 
-### plan
+### core
+This library the core functions of tsht. It is always included and includes
+the most commonly used libraries:
+* [string](#string)
+* [file](#file)
 
-[source](./tsht-core.sh#L3)
-[test](./test/core/plan.tsht)
+##### plan
+
+[source](./lib/core.sh#L17)
+[test](./test/api/core/plan.tsht)
 
 Specify the number of planned assertions
 
     plan <number-of-tests>
 
-### equals
+##### fail
 
-[source](./tsht-core.sh#L15)
-[test](./test/core/equals.tsht)
-
-Test for equality of strings
-
-    equals <expected> <actual> [<message>]
-
-Example:
-
-    equals "2" 2 "two equals two"
-    equals 2 "$(wc -l my-file)" "two lines in my-file"
-
-### not_equals
-
-[source](./tsht-core.sh#L39)
-[test](./test/core/not_equals.tsht)
-
-Inverse of [equals](#equals).
-
-### fail
-
-[source](./tsht-core.sh#L56)
-[test](./test/core/fail.tsht)
+[source](./lib/core.sh#L29)
+[test](./test/api/core/fail.tsht)
 
 Fail unconditionally
 
@@ -240,19 +233,19 @@ Fail unconditionally
 
 The additional output will be prefixed with `#`.
 
-### pass
+##### pass
 
-[source](./tsht-core.sh#L76)
-[test](./test/core/pass.tsht)
+[source](./lib/core.sh#L50)
+[test](./test/api/core/pass.tsht)
 
 Succeed unconditionally.
 
 See [fail](#fail)
 
-### exec_fail
+##### exec_fail
 
-[source](./tsht-core.sh#L93)
-[test](./test/core/exec_fail.tsht)
+[source](./lib/core.sh#L67)
+[test](./test/api/core/exec_fail.tsht)
 
 Execute a command (or function) and succeed when its return code matches the
 parameter <expected-return>
@@ -263,10 +256,10 @@ Example
 
     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
 
-### exec_ok
+##### exec_ok
 
-[source](./tsht-core.sh#L111)
-[test](./test/core/exec_ok.tsht)
+[source](./lib/core.sh#L85)
+[test](./test/api/core/exec_ok.tsht)
 
 Execute a command (or function) and succeed when it returns zero.
 
@@ -274,50 +267,91 @@ Example
 
     exec_ok "ls" "-la"
 
-### file_exists
+##### ok
 
-[source](./tsht-core.sh#L128)
-[test](./test/core/file_exists.tsht)
+[source](./lib/core.sh#L102)
+[test](./test/api/core/ok.tsht)
+
+Succeed if the first argument is a non-empty non-zero string
+
+##### not_ok
+
+[source](./lib/core.sh#L116)
+[test](./test/api/core/not_ok.tsht)
+
+Succeed if the first argument is an empty string or zero.
+
+### file
+
+##### file_exists
+
+[source](./lib/file.sh#L3)
+[test](./test/api/file/file_exists.tsht)
 
 Succeed if a file (or folder or symlink...) exists.
 
     file_exists ".git"
 
-### file_not_empty
+##### file_not_empty
 
-[source](./tsht-core.sh#L143)
-[test](./test/core/file_not_empty.tsht)
+[source](./lib/file.sh#L18)
+[test](./test/api/file/file_not_empty.tsht)
 
 Succeed if a file exists and is a non-empty file.
 
-### match
+### string
+This library contains functions testing strings and numbers
 
-[source](./tsht-core.sh#L156)
-[test](./test/core/match.tsht)
+##### ok
+
+[source](./lib/string.sh#L12)
+[test](./test/api/string/ok.tsht)
+
+Succeed if the first argument is a non-empty non-zero string
+
+##### not_ok
+
+[source](./lib/string.sh#L26)
+[test](./test/api/string/not_ok.tsht)
+
+Succeed if the first argument is an empty string or zero.
+
+##### equals
+
+[source](./lib/string.sh#L39)
+[test](./test/api/string/equals.tsht)
+
+Test for equality of strings
+
+    equals <expected> <actual> [<message>]
+
+Example:
+
+    equals "2" 2 "two equals two"
+    equals 2 "$(wc -l my-file)" "two lines in my-file"
+
+##### not_equals
+
+[source](./lib/string.sh#L62)
+[test](./test/api/string/not_equals.tsht)
+
+Inverse of [equals](#equals).
+
+##### match
+
+[source](./lib/string.sh#L78)
+[test](./test/api/string/match.tsht)
 
 Succeed if a string matches a pattern
 
     match "^\\d+$" "1234" "Only numbers"
 
-### not_match
+##### not_match
 
-[source](./tsht-core.sh#L173)
-[test](./test/core/not_match.tsht)
+[source](./lib/string.sh#L95)
+[test](./test/api/string/not_match.tsht)
 
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
-
-### ok
-
-[source](./tsht-core.sh#L190)
-[test](./test/core/ok.tsht)
-
-Succeed if the first argument is a non-empty non-zero string
-
-### not_ok
-
-[source](./tsht-core.sh#L204)
-[test](./test/core/not_ok.tsht)
-
-Succeed if the first argument is an empty string or zero.
+<!-- End API -->

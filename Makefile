@@ -9,7 +9,7 @@ PREFIX = $(DESTDIR)/usr/local
 SHAREDIR = $(PREFIX)/share/$(PKG_NAME)
 BINDIR = $(PREFIX)/bin
 
-LIBS = tsht-core.sh
+LIBS = lib/*
 
 .PHONY: test doc
 
@@ -32,6 +32,12 @@ uninstall:
 	$(RM) $(BINDIR)/tsht
 
 doc: $(LIBS)
-	./doc/apidoc.pl $^ > doc/api.md
-
+	sed -n '1,/<!-- Begin API -->/p' README.md >> README.new &&\
+		./doc/apidoc.pl --heading-prefix='##' $(LIBS) >> README.new &&\
+		sed -n '/<!-- End API -->/,$$p' README.md >> README.new &&\
+		mv README.new README.md
+	sed -n '1,/<!-- Begin API TOC -->/p' README.md >> README.new &&\
+		./doc/apidoc.pl --toc --no-body --toc-prefix='	' $(LIBS) >> README.new &&\
+		sed -n '/<!-- End API TOC -->/,$$p' README.md >> README.new &&\
+		mv README.new README.md
  

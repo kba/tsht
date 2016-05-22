@@ -1,0 +1,5 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+match "--foo" "--foo"
