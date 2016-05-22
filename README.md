@@ -119,9 +119,25 @@ For the [tests of tsht itself](./test), it will produce output like this:
 $ ./test/tsht | tap-spec
 ```
 
-<!-- vim :!./test/tsht|tap-spec -->
+<!-- vim :r!./test/tsht|tap-spec -->
 
 ```
+  Testing ./runner/help/help.tsht
+
+    ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --help
+    ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh -h
+    ✔ -h == --help
+    ✔ Matches '--color': 'Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]<LF>    Options:<LF>        -h|--help   Show this help<LF>        --color     Highlight passing/failing tests in green/red'
+
+  Testing ./runner/color/color-test.tsht
+
+    ✔ Color output as expected
+
+  Testing ./runner/0tshtlib/tshtlib.tsht
+
+    ✔ TSHTLIB is set
+    ✔ TSHTLIB is relative to this dir
+    ✔ 58990 is the right tsht-runner.sh
 
   Testing ./file.tsht
 
@@ -130,74 +146,60 @@ $ ./test/tsht | tap-spec
     ✔ File exists: does-not-exist
     ✔ Not empty file: does-not-exist
     ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
 
-  Testing ./core/file_exists.tsht
-
-    ✔ File exists: does-not-exist
-    ✔ Planned number of tests
-
-  Testing ./core/match.tsht
-
-    ✔ Like '^\d+': '1234'
-    ✔ Like '^\d+$': '1234'
-    ✔ Like '^a\d+$': 'a1234'
-    ✔ Planned number of tests
-
-  Testing ./core/file_not_empty.tsht
-
-    ✔ Not empty file: does-not-exist
-    ✔ Planned number of tests
-
-  Testing ./core/not_ok.tsht
+  Testing ./api/core/not_ok.tsht
 
     ✔ No such file, hooray!
-    ✔ Planned number of tests
 
-  Testing ./core/equals.tsht
-
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
-
-  Testing ./core/not_match.tsht
-
-    ✔ Not like '^\d+$': 'a1234'
-    ✔ Planned number of tests
-
-  Testing ./core/exec_fail.tsht
+  Testing ./api/core/exec_fail.tsht
 
     ✔ Failed as expected: ls does-not-exist
-    ✔ Planned number of tests
 
-  Testing ./core/not_equals.tsht
-
-    ✔ 1984 test
-    ✔ Planned number of tests
-
-  Testing ./core/ok.tsht
+  Testing ./api/core/ok.tsht
 
     ✔ Me testing my existence
-    ✔ Planned number of tests
 
-  Testing ./core/exec_ok.tsht
+  Testing ./api/core/exec_ok.tsht
 
     ✔ Executed: touch does-not-exist
-    ✔ Planned number of tests
 
-  Testing ./options.tsht
+  Testing ./api/file/file_exists.tsht
 
-    ✔ Executed: tsht --help
-    ✔ Executed: tsht -h
+    ✔ File exists: does-not-exist
+
+  Testing ./api/file/file_not_empty.tsht
+
+    ✔ Not empty file: does-not-exist
+
+  Testing ./api/string/match.tsht
+
+    ✔ Matches '^d+': '1234'
+    ✔ Matches '^d+$': '1234'
+    ✔ Matches '^ad+$': 'a1234'
+
+  Testing ./api/string/equals.tsht
+
     ✔ (unnamed equals assertion)
-    ✔ Planned number of tests
+    ✔ (unnamed equals assertion)
+    ✔ (unnamed equals assertion)
+    ✔ (unnamed equals assertion)
+
+  Testing ./api/string/not_match.tsht
+
+    ✔ Not like '^d+$': 'string'
+
+  Testing ./api/string/not_equals.tsht
+
+    ✔ 1984 test
+
+  Testing ./issues/issue_8.tsht
+
+    ✔ Matches '--foo': '--foo'
 
 
-  total:     35
-  passing:   35
-  duration:  20ms
+  total:     29
+  passing:   29
+  duration:  19ms
 
 ```
 
