@@ -5,5 +5,5 @@ plan 3
 exec_ok "$0" "--help"
 exec_ok "$0" "-h"
 equals "$($0 --help)" "$($0 -h)"  "-h == --help"
-help_out="$(tsht --help)"
+help_out="$($0 --help 2>&1)"
 match "--color" "$help_out" "Info on --color"

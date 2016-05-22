@@ -71,7 +71,7 @@ not_equals() {
     if [[ "$expected" -ne "$actual" ]];then
         pass "$message"
     else
-        fail "$message ('$(echo "$expected")' == '$(echo "$actual")')"
+        fail "$message ('$(_shorten "$expected")' == '$(_shorten "$actual")')"
     fi
 }
 
@@ -84,11 +84,11 @@ match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
     message=${message:-(unnamed match assertion)}
-    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
+    echo "$string"|grep -Pi -- "$pattern" 2>/dev/null >&2
     if [[ "$?" != 0 ]];then
-        fail "Does ot match '$pattern': '$string'"
+        fail "Does ot match '$pattern': '$(_shorten "$string")'"
     else
-        pass "Matches '$pattern': '${string}...'"
+        pass "Matches '$pattern': '$(_shorten "$string" )'"
     fi
 }
 
@@ -101,7 +101,7 @@ not_match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
     message=${message:-(unnamed not_match assertion)}
-    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
+    echo "$string"|grep -Pi -- "$pattern" 2>/dev/null >&2
     if [[ "$?" = 0 ]];then
         fail "Like '$pattern': '$string'"
     else
