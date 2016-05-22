@@ -2,6 +2,13 @@
 
 # This library contains functions testing strings and numbers
 
+_shorten() {
+    string="$1"
+    string=${string//$'\n'/<LF>}
+    string=${string:0:200}
+    echo "$string"
+}
+
 # ### ok
 #
 # Succeed if the first argument is a non-empty non-zero string
@@ -48,7 +55,7 @@ equals() {
     if [[ "$expected" = "$actual" ]];then
         pass "$message"
     else
-        fail "$message ($expected != $actual)"
+        fail "$message ('$(_shorten "$expected")' != '$(_shorten "$actual")')"
     fi
 }
 
@@ -64,7 +71,7 @@ not_equals() {
     if [[ "$expected" -ne "$actual" ]];then
         pass "$message"
     else
-        fail "$message ($expected != $actual)"
+        fail "$message ('$(echo "$expected")' == '$(echo "$actual")')"
     fi
 }
 
@@ -81,8 +88,6 @@ match() {
     if [[ "$?" != 0 ]];then
         fail "Does ot match '$pattern': '$string'"
     else
-        string=${string//$'\n'/}
-        string=${string:0:50}
         pass "Matches '$pattern': '${string}...'"
     fi
 }
@@ -100,9 +105,7 @@ not_match() {
     if [[ "$?" = 0 ]];then
         fail "Like '$pattern': '$string'"
     else
-        string=${string//$'\n'/}
-        string=${string:0:50}
-        pass "Not like '$pattern': '$string'"
+        pass "Not like '$pattern': '$(_shorten string)'"
     fi
 }
 

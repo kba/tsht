@@ -1,9 +1,6 @@
 #!/bin/bash
 
 USE_COLOR=0
-echo-err() {
-    echo "$@" >&2
-}
 if [[ -z "$TSHTLIB" ]];then
     echo "\$TSHTLIB is not set, export it or use the 'tsht' wrapper script."
     exit 201
@@ -53,26 +50,25 @@ else
 fi
 
 export PATH=$(readlink "$(dirname "$0")"/..):$PATH
-export total_failed
+export total_failed=0
 for t in "${TESTS[@]}";do
     echo "# Testing $t"
     (
         TEST_PLAN=0
         TEST_IDX=0
-        TEST_FAILED=0
         source "$TSHTLIB/lib/core.sh"
         cd "$(dirname $t)"
         source "$(basename $t)"
         if [[ "$TEST_PLAN" == 0 ]];then
             echo "1..$TEST_IDX"
+        else
+            equals "$TEST_PLAN" "$TEST_IDX" "Planned number of tests"
         fi
-        exit "$TEST_FAILED"
     ) | (
-        failed=0
+        if [[ "$line" =~ ^not\\sok ]];then
+            total_failed=$((total_failed + 1))
+        fi
         while read line;do 
-            if [[ "$line" =~ ^not.ok ]];then
-                failed=$((failed + 1))
-            fi
             if [[ "$USE_COLOR" = 1 ]];then
                 echo "$line" \
                     | sed 's/^ok/\x1b[1;32m&\x1b[0;39m/' \
@@ -81,9 +77,7 @@ for t in "${TESTS[@]}";do
                 echo "$line"
             fi
         done
-        exit $failed
     )
-    total_failed=$(( total_failed + $? ))
 done
 echo "# Failed $total_failed tests"
-exit "$total_failed"
+exit $total_failed

@@ -23,7 +23,7 @@ plan() {
     local max
     max="$1"
     TEST_PLAN=$((TEST_PLAN + max))
-    echo "1..$((TEST_PLAN + 1))"
+    echo "1..$((TEST_PLAN))"
 }
 
 # ### fail
@@ -64,45 +64,6 @@ pass() {
     echo -e "ok $TEST_IDX - $message$diag"
 }
 
-# ### equals
-#
-# Test for equality of strings
-#
-#     equals <expected> <actual> [<message>]
-#
-# Example:
-#
-#     equals "2" 2 "two equals two"
-#     equals 2 "$(wc -l my-file)" "two lines in my-file"
-equals() {
-    local expected actual message
-    expected="$1"
-    actual="$2"
-    message="$3"
-    message=${message:-(unnamed equals assertion)}
-    if [[ "$expected" = "$actual" ]];then
-        pass "$message"
-    else
-        fail "$message ($expected != $actual)"
-    fi
-}
-
-# ### not_equals
-#
-# Inverse of [equals](#equals).
-not_equals() {
-    local expected actual message
-    expected="$1"
-    actual="$2"
-    message="$3"
-    message=${message:-(unnamed not_equals assertion)}
-    if [[ "$expected" -ne "$actual" ]];then
-        pass "$message"
-    else
-        fail "$message ($expected != $actual)"
-    fi
-}
-
 # ### exec_fail
 #
 # Execute a command (or function) and succeed when its return code matches the
@@ -135,44 +96,6 @@ exec_ok() {
         pass "Executed: $*"
     else
         fail "Failed: $*" "$output"
-    fi
-}
-
-# ### match
-#
-# Succeed if a string matches a pattern
-#
-#     match "^\\d+$" "1234" "Only numbers"
-match() {
-    local pattern string message
-    pattern="$1"; string="$2"; message="$3"
-    message=${message:-(unnamed match assertion)}
-    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
-    if [[ "$?" != 0 ]];then
-        fail "Does ot match '$pattern': '$string'"
-    else
-        string=${string//$'\n'/}
-        string=${string:0:50}
-        pass "Matches '$pattern': '${string}...'"
-    fi
-}
-
-# ### not_match
-#
-# Succeed if a string **does not** match a pattern
-#
-#     not_match "^\\d+$" "abcd" "Only numbers"
-not_match() {
-    local pattern string message
-    pattern="$1"; string="$2"; message="$3"
-    message=${message:-(unnamed not_match assertion)}
-    echo "$string"|grep -Pi "$pattern" 2>/dev/null >&2
-    if [[ "$?" = 0 ]];then
-        fail "Like '$pattern': '$string'"
-    else
-        string=${string//$'\n'/}
-        string=${string:0:50}
-        pass "Not like '$pattern': '$string'"
     fi
 }
 
