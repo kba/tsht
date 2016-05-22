@@ -2,21 +2,17 @@
 
 plan 1
 
-set -e
-
 testproject="$PWD/test-project"
 trap "rm -rf $testproject" EXIT
 
-tsht_repo="../../../"
 # The first commit with the --update option
 sha_initial="bd9fbafa643f10087cb24ff0f3b47a9d33a12a26"
-sha_current=$(cd $tsht_repo && git rev-parse master)
 
 mkdir "$testproject"
-cp "$tsht_repo/tsht" "$testproject/"
-exec_ok git clone "$tsht_repo" "$testproject/.tsht"
+exec_ok git clone "https://github.com/kba/tsht" "$testproject/.tsht"
+exec_ok cp "$testproject/.tsht/tsht" "$testproject/"
 cd "$testproject/.tsht"
-exec_ok git checkout master
+sha_current=$(git log origin/master -1 --format='%H')
 exec_ok git reset --hard "$sha_initial"
 cd "$testproject"
 

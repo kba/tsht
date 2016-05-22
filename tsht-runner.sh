@@ -18,33 +18,29 @@ usage() {
         --version  -V   Show last revision of the runner"
 }
 
+version() {
+    cd "$TSHTLIB"
+    git log -1 --format="%C(yellow)%h %C(green)%cI %C(reset)%s"
+}
+
+update() {
+    cd "$TSHTLIB"
+    git pull origin master && git merge origin/master master
+    if [[ "$?" == 0 ]];then
+        echo-err "tsht updated";
+    else
+        echo-err "tsht not updated"
+    fi
+    exit 0
+}
+
 while [[ "$1" =~ ^- ]];do
     case "$1" in
-        --)
-            break
-            ;;
-        --version|-V)
-            cd "$TSHTLIB"
-            git log -1 --format="%C(yellow)%h %C(green)%cI %C(reset)%s"
-            exit 0
-            ;;
-        --color)
-            USE_COLOR=1
-            ;;
-        --update)
-            cd "$TSHTLIB"
-            git pull origin master && git merge origin/master master
-            if [[ "$?" == 0 ]];then
-                echo-err "tsht updated";
-            else
-                 echo-err "tsht not updated"
-            fi
-            exit 0
-            ;;
-        --help|-h)
-            usage
-            exit
-            ;;
+        --) break ;;
+        --color) USE_COLOR=1 ;;
+        --help|-h) usage; exit 0 ;;
+        --version|-V) version; exit 0 ;;
+        --update) update ;;
         *)
             echo-err "No such option: $1"
             exit 2
@@ -80,7 +76,7 @@ for t in "${TESTS[@]}";do
         TEST_FAILED=0
         source "$TSHTLIB/lib/core.sh"
         cd "$(dirname $t)"
-        source "$(basename $t)"
+        source "$(basename $t)" || exit 99
         if [[ "$TEST_PLAN" == 0 ]];then
             echo "1..$TEST_IDX"
         fi
