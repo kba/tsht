@@ -10,7 +10,7 @@ if [[ -z "$TSHTLIB" ]];then
 fi
 
 usage() {
-    echo "Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]
+    echo "Usage: tsht [-h] [--color] [--update] [<path/to/unit.tsht>...]
     Options:
         -h|--help   Show this help
         --color     Highlight passing/failing tests in green/red
@@ -30,8 +30,7 @@ while [[ "$1" =~ ^- ]];do
             ;;
         --update)
             cd "$TSHTLIB"
-            echo $PWD
-            git fetch origin master && git merge origin/master master
+            git pull origin master && git merge origin/master master
             if [[ "$?" == 0 ]];then
                 echo-err "tsht updated";
             else
@@ -42,6 +41,10 @@ while [[ "$1" =~ ^- ]];do
         --help|-h)
             usage
             exit
+            ;;
+        *)
+            echo-err "No such option: $1"
+            exit 2
             ;;
     esac
     shift

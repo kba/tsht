@@ -8,18 +8,19 @@ testproject="$PWD/test-project"
 trap "rm -rf $testproject" EXIT
 
 tsht_repo="../../../"
-sha_initial="2fff5b47cb08dec945c5ebd989b55ffac016f8ba"
-sha_current=$(cd $tsht_repo && git rev-parse origin/master)
+# The first commit with the --update option
+sha_initial="bd9fbafa643f10087cb24ff0f3b47a9d33a12a26"
+sha_current=$(cd $tsht_repo && git rev-parse master)
 
 mkdir "$testproject"
 cp "$tsht_repo/tsht" "$testproject/"
-git clone "$tsht_repo" "$testproject/.tsht"
+exec_ok git clone "$tsht_repo" "$testproject/.tsht"
 cd "$testproject/.tsht"
-git checkout master
-git reset --hard "$sha_initial"
+exec_ok git checkout master
+exec_ok git reset --hard "$sha_initial"
 cd "$testproject"
 
 TSHTLIB=""
 equals "$sha_initial" "$(cd $testproject/.tsht; git rev-parse HEAD)" "HEAD is $sha_initial"
-./tsht --update
+exec_ok ./tsht --update
 equals "$sha_current" "$(cd $testproject/.tsht; git rev-parse HEAD)" "HEAD is $sha_current"
