@@ -1,3 +1,6 @@
 language: bash
+os:
+  - linux
+  - osx
 # before_install: npm install -g tap-spec
 script: ./test/tsht --color
