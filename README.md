@@ -85,6 +85,19 @@ All tsht scripts should start with `#!/usr/bin/env tsht`
 Tsht scripts are executed in alphabetic order, so prefix the scripts you want
 to run early with a low number.
 
+### CLI
+
+<!-- Begin CLI -->
+```
+Usage: tsht [options...] [<path/to/unit.tsht>...]
+    Options:
+        --help     -h   Show this help
+        --color         Highlight passing/failing tests in green/red
+        --update        Update the tsht framework from git
+        --version  -V   Show last revision of the runner
+```
+<!-- End CLI -->
+
 ### Example
 
 ```sh
@@ -122,17 +135,31 @@ For the [tests of tsht itself](./test), it will produce output like this:
 $ ./test/tsht | tap-spec
 ```
 
-<!-- vim :r!./test/tsht|tap-spec -->
-
+<!-- Begin tsht -->
 ```
+
+  Testing ./runner/update/update.tsht
+
+    ✔ Executed: git clone ../../../ /home/kb/build/github.com/kba/tsht/test/runner/update/test-project/.tsht
+    ✔ Executed: git checkout master
+    ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
+    ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
+    ✔ Executed: ./tsht --update
+    ✔ HEAD is 57598eeb7ea49f9ef2b938c7b1cd2e07c58b2a59
+
   Testing ./runner/help/help.tsht
 
     ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --help
     ✔ Executed: /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh -h
     ✔ -h == --help
-    ✔ Matches '--color': 'Usage: tsht [-h] [--color] [<path/to/unit.tsht>...]<LF>    Options:<LF>        -h|--help   Show this help<LF>        --color     Highlight passing/failing tests in green/red'
+    ✔ Matches '--color': 'Usage: tsht [options...] [<path/to/unit.tsht>...]<LF>    Options:<LF>        --help     -h   Show this help<LF>        --color         Highlight passing/failing tests in green/red<LF>        --update '
+    ✔ Matches '--update': 'Usage: tsht [options...] [<path/to/unit.tsht>...]<LF>    Options:<LF>        --help     -h   Show this help<LF>        --color         Highlight passing/failing tests in green/red<LF>        --update '
+    ✔ Failed as expected (2) '/home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --foobar'
 
   Testing ./runner/color/color-test.tsht
+
+
+  /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --color test
 
     ✔ Color output as expected
 
@@ -140,11 +167,11 @@ $ ./test/tsht | tap-spec
 
     ✔ TSHTLIB is set
     ✔ TSHTLIB is relative to this dir
-    ✔ 58990 is the right tsht-runner.sh
+    ✔ /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh is the right tsht-runner.sh
 
   Testing ./file.tsht
 
-    ✔ Failed as expected: ls does-not-exist
+    ✔ Failed as expected (2) 'ls does-not-exist'
     ✔ Executed: touch does-not-exist
     ✔ File exists: does-not-exist
     ✔ Not empty file: does-not-exist
@@ -152,11 +179,13 @@ $ ./test/tsht | tap-spec
 
   Testing ./api/core/not_ok.tsht
 
-    ✔ No such file, hooray!
+    ✔ Empty string
+    ✔ 0
+    ✔ "0"
 
   Testing ./api/core/exec_fail.tsht
 
-    ✔ Failed as expected: ls does-not-exist
+    ✔ Failed as expected (2) 'ls does-not-exist'
 
   Testing ./api/core/ok.tsht
 
@@ -200,16 +229,17 @@ $ ./test/tsht | tap-spec
     ✔ Matches '--foo': '--foo'
 
 
-  total:     29
-  passing:   29
+  total:     39
+  passing:   39
   duration:  19ms
 
+
 ```
+<!-- End tsht -->
 
 ## API
 
 <!-- Begin API -->
-
 
 ### core
 This library the core functions of tsht. It is always included and includes
@@ -358,6 +388,5 @@ Succeed if a string matches a pattern
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
-
 <!-- End API -->
 

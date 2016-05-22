@@ -32,10 +32,20 @@ uninstall:
 	$(RM) $(BINDIR)/tsht
 
 doc: $(LIBS)
+	sed -n '1,/<!-- Begin CLI -->/p' README.md >> README.new &&\
+		echo '```' >> README.new &&\
+		./test/tsht --help >> README.new &&\
+		echo '```' >> README.new &&\
+		sed -n '/<!-- End CLI -->/,$$p' README.md >> README.new &&\
+		mv README.new README.md
+	sed -n '1,/<!-- Begin tsht -->/p' README.md >> README.new &&\
+		echo '```' >> README.new &&\
+		./test/tsht | tap-spec >> README.new &&\
+		echo '```' >> README.new &&\
+		sed -n '/<!-- End tsht -->/,$$p' README.md >> README.new &&\
+		mv README.new README.md
 	sed -n '1,/<!-- Begin API -->/p' README.md >> README.new &&\
-		echo >> README.new &&\
 		./doc/apidoc.pl --heading-prefix='##' $(LIBS) >> README.new &&\
-		echo >> README.new &&\
 		sed -n '/<!-- End API -->/,$$p' README.md >> README.new &&\
 		mv README.new README.md
 	sed -n '1,/<!-- Begin API TOC -->/p' README.md >> README.new &&\

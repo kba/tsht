@@ -10,11 +10,12 @@ if [[ -z "$TSHTLIB" ]];then
 fi
 
 usage() {
-    echo "Usage: tsht [-h] [--color] [--update] [<path/to/unit.tsht>...]
+    echo "Usage: tsht [options...] [<path/to/unit.tsht>...]
     Options:
-        -h|--help   Show this help
-        --color     Highlight passing/failing tests in green/red
-        --update    Update the tsht framework from git"
+        --help     -h   Show this help
+        --color         Highlight passing/failing tests in green/red
+        --update        Update the tsht framework from git
+        --version  -V   Show last revision of the runner"
 }
 
 while [[ "$1" =~ ^- ]];do
@@ -22,9 +23,11 @@ while [[ "$1" =~ ^- ]];do
         --)
             break
             ;;
-        # --version|-V)
-        #     break
-        #     ;;
+        --version|-V)
+            cd "$TSHTLIB"
+            git log -1 --format="%C(yellow)%h %C(green)%cI %C(reset)%s"
+            exit 0
+            ;;
         --color)
             USE_COLOR=1
             ;;
