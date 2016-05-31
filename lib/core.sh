@@ -126,3 +126,34 @@ not_ok() {
         fail "$message"
     fi
 }
+
+# ### use
+# 
+# Use an extension library
+#
+#     use 'jq'
+use() {
+    local extname extdir extinstall extlib
+    extname="$1"
+    extdir="$TSHTLIB/ext/$extname"
+    extmake="$extdir/Makefile"
+    extlib="$extdir/$extname.sh"
+    if [[ ! -d "$extdir" ]];then
+        echo "# No such extension: '$extname'"
+        exit 2
+    elif [[ ! -e "$extmake" ]];then
+        echo "# No 'Makefile' script in $extdir"
+        exit 2
+    elif [[ ! -e "$extlib" ]];then
+        echo "# No '$extname.sh' script in $extdir"
+        exit 2
+    fi
+    make -sC "$extdir" PREFIX="$extdir" install
+    if [[ "$?" -gt 0 ]];then
+        echo "# Could not install '$extname' extension"
+        exit 2
+    fi
+    export PATH="$extdir/bin:$PATH"
+    source "$extlib"
+}
+

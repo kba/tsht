@@ -1,0 +1,15 @@
+#!/usr/bin/env tsht
+
+plan 2
+
+use 'jq'
+
+exec_ok "jq" "--version"
+
+test_json='{"foo": {"bar": [23, 42] } }'
+
+jq_equals ".foo.bar[1]" "42" "$test_json" "From string"
+jq_equals ".foo.bar[1]" "42" "From STDIN (1)" <  <(echo "$test_json")
+echo "$test_json" | jq_equals ".foo.bar[1]" "42" "From STDIN (2)"
+jq_equals ".foo.bar[1]" "42" <  <(echo "$test_json")
+jq_ok ".foo.bar[1] == 42" < <(echo "$test_json")
