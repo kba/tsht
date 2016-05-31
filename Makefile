@@ -9,16 +9,20 @@ PREFIX = $(DESTDIR)/usr/local
 SHAREDIR = $(PREFIX)/share/$(PKG_NAME)
 BINDIR = $(PREFIX)/bin
 
+TSHT_ARGS =
+
 LIBS = lib/*
 
 .PHONY: test doc
 
-test:
-	@if which tap-spec >/dev/null;then \
-		./test/tsht | tap-spec; \
-	else \
-		./test/tsht; \
-	fi
+test: test/.tsht test/tsht
+	./test/tsht --color "$(TSHT_ARGS)"
+#     @rm -r $^
+# test/tsht:
+#     @cp -rt test tsht
+# test/.tsht:
+#     @$(MKDIR) $@
+#     @cp -rt $@ tsht-runner.sh lib extension
 
 install:
 	$(MKDIR) $(SHAREDIR)

@@ -69,8 +69,7 @@ else
         shift
     done
 fi
-
-export PATH=$(readlink "$(dirname "$0")"/..):$PATH
+ 
 export total_failed
 for t in "${TESTS[@]}";do
     echo "# Testing $t"

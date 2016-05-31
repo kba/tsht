@@ -98,6 +98,35 @@ Usage: tsht [options...] [<path/to/unit.tsht>...]
 ```
 <!-- End CLI -->
 
+### Extensions
+
+In addition to the [core functionality](#api), tsht can be extended with
+extensions. An extension is a subdirectory of tsht that has this structure:
+
+```
+/ext/<name>
+ext/
+└── <name>
+    ├── Makefile
+    └── <name>.sh
+```
+
+The `Makefile` must have an `install` target that can install necessary binaries
+into `$(PREFIX)/bin`.
+
+To use an extension, call the `use` directive:
+
+```sh
+use 'jq'
+```
+
+This will call `make install` in the extension directory and set the `PATH`
+variable to let the extension use the locally installed software.
+
+Currently, these extensions are available:
+
+* [jq](ext/jq) [[test](test/ext/jq/jq.tsht)]: A wrapper around the [jq](https://stedolan.github.io/jq) CLI JSON query tool
+
 ### Example
 
 ```sh
