@@ -11,6 +11,7 @@ i_10="${i_8}${i_2}"
 # * [string](#string)
 # * [file](#file)
 
+source "$TSHTLIB/lib/internal.sh"
 source "$TSHTLIB/lib/string.sh"
 source "$TSHTLIB/lib/file.sh"
 

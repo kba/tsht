@@ -1,0 +1,4 @@
+#!/usr/bin/env tsht
+
+not_file_exists "DELETEME" "file was deleted after ba.tsht"
+

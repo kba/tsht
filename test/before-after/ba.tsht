@@ -1,0 +1,3 @@
+#!/usr/bin/env tsht
+
+file_exists "DELETEME" "file was created before 'ba.tsht'"
