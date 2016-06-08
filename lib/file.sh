@@ -11,7 +11,22 @@ file_exists() {
     if [[ -e "$file" ]];then
         pass "File exists: $file"
     else
-        fail "File does not exist: $file"
+        fail "File does **not** exist: $file"
+    fi
+}
+
+# ### not_file_exists
+#
+# Succeed if a file (or folder or symlink...) does not exist.
+#
+#     not_file_exists "temp"
+not_file_exists() {
+    local file
+    file="$1"
+    if [[ ! -e "$file" ]];then
+        pass "File does not exist: $file"
+    else
+        fail "File **does** exists: $file"
     fi
 }
 
