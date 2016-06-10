@@ -72,14 +72,17 @@ fi
  
 export total_failed
 for t in "${TESTS[@]}";do
+    CURTEST="$(cd "$(dirname "$t")" && pwd)/$(basename "$t")"
     echo "# Testing $t"
     (
         TEST_PLAN=0
         TEST_IDX=0
         TEST_FAILED=0
         source "$TSHTLIB/lib/core.sh"
-        cd "$(dirname $t)"
-        source "$(basename $t)"
+        cd "$(dirname "$CURTEST")"
+        _tsht_run_hook 'before'
+        source "$(basename "$CURTEST")"
+        _tsht_run_hook 'after'
         if [[ "$TEST_PLAN" == 0 ]];then
             echo "1..$TEST_IDX"
         fi
