@@ -30,10 +30,12 @@ not_file_exists() {
     fi
 }
 
-# ### file_not_empty
+# ### not_file_empty
+#
+# ALIAS: `file_not_empty`
 #
 # Succeed if a file exists and is a non-empty file.
-file_not_empty() {
+not_file_empty() {
     local file
     file="$1"
     if [[ -s "$file" ]];then
@@ -42,4 +44,24 @@ file_not_empty() {
         fail "Empty file: $file"
     fi
 }
+file_not_empty() {
+    not_file_empty "$@"
+}
 
+# ### equals_file
+#
+# Succeed if the first arguments match the contents of the file in the second argument.
+equals_file() {
+    local actual="$1"; shift
+    local filename="$1"; shift
+    equals "$actual" "$(cat "$filename")" "$@"
+}
+
+# ### equals_file_file
+#
+# Succeed if the contents of two files match, filenames passed as arguments.
+equals_file_file() {
+    local actual="$1"; shift
+    local filename="$1"; shift
+    equals "$(cat "$actual")" "$(cat "$filename")" "$@"
+}

@@ -36,6 +36,7 @@ not_ok() {
         fail "$message"
     fi
 }
+
 # ### equals
 #
 # Test for equality of strings
