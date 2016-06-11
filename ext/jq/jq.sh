@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## ### jq_ok
+##
+## Test if `jq` expression validates
+##
 jq_ok() {
     local json_data json_path msg line
     json_path="$1"
@@ -15,6 +19,10 @@ jq_ok() {
     pass "$msg"
 }
 
+## ### jq_ok
+##
+## Test if `jq` expression is as exepected
+##
 jq_equals() {
     local json_data json_path expected msg line
     json_path="$1"

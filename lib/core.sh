@@ -5,21 +5,23 @@ i_6="${i_4}${i_2}"
 i_8="${i_6}${i_2}"
 i_10="${i_8}${i_2}"
 
-# This library the core functions of tsht. It is always included and includes
-# the most commonly used libraries:
-
-# * [string](#string)
-# * [file](#file)
+## This library the core functions of tsht. It is always included and includes
+## the most commonly used libraries:
+##
+## * [string](#string)
+## * [file](#file)
+##
 
 source "$TSHTLIB/lib/internal.sh"
 source "$TSHTLIB/lib/string.sh"
 source "$TSHTLIB/lib/file.sh"
 
-# ### plan
-#
-# Specify the number of planned assertions
-#
-#     plan <number-of-tests>
+## ### plan
+##
+## Specify the number of planned assertions
+##
+##     plan <number-of-tests>
+##
 plan() {
     local max
     max="$1"
@@ -27,13 +29,14 @@ plan() {
     echo "1..$((TEST_PLAN))"
 }
 
-# ### fail
-#
-# Fail unconditionally
-#
-#     fail <message> [<additional-output>]
-#
-# The additional output will be prefixed with `#`.
+## ### fail
+##
+## Fail unconditionally
+##
+##     fail <message> [<additional-output>]
+##
+## The additional output will be prefixed with `#`.
+##
 fail() {
     local message diag
     message="$1"
@@ -48,11 +51,12 @@ fail() {
     return 1
 }
 
-# ### pass
-#
-# Succeed unconditionally.
-#
-# See [fail](#fail)
+## ### pass
+##
+## Succeed unconditionally.
+##
+## See [fail](#fail)
+##
 pass() {
     local message diag
     message="$1"
@@ -65,16 +69,17 @@ pass() {
     echo -e "ok $TEST_IDX - $message$diag"
 }
 
-# ### exec_fail
-#
-# Execute a command (or function) and succeed when its return code matches the
-# parameter <expected-return>
-#
-#     exec_fail <expected-return> [<cmd-args>...]
-#
-# Example
-#
-#     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
+## ### exec_fail
+##
+## Execute a command (or function) and succeed when its return code matches the
+## parameter <expected-return>
+##
+##     exec_fail <expected-return> [<cmd-args>...]
+##
+## Example
+##
+##     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
+##
 exec_fail() {
     local output expected_return
     expected_return=$1
@@ -83,13 +88,14 @@ exec_fail() {
     equals "$?" "$expected_return" "Failed as expected ($expected_return) '$*'"
 }
 
-# ### exec_ok
-#
-# Execute a command (or function) and succeed when it returns zero.
-#
-# Example
-#
-#     exec_ok "ls" "-la"
+## ### exec_ok
+##
+## Execute a command (or function) and succeed when it returns zero.
+##
+## Example
+##
+##     exec_ok "ls" "-la"
+##
 exec_ok() {
     local output
     output=$("$@" 2>&1)
@@ -100,9 +106,10 @@ exec_ok() {
     fi
 }
 
-# ### ok
-#
-# Succeed if the first argument is a non-empty non-zero string
+## ### ok
+##
+## Succeed if the first argument is a non-empty non-zero string
+##
 ok() {
     local input message
     input=$1 ; message=$2
@@ -114,9 +121,9 @@ ok() {
     fi
 }
 
-# ### not_ok
-#
-# Succeed if the first argument is an empty string or zero.
+## ### not_ok
+##
+## Succeed if the first argument is an empty string or zero.
 not_ok() {
     local input message
     input=$1 ; message=$2
@@ -128,11 +135,12 @@ not_ok() {
     fi
 }
 
-# ### use
-# 
-# Use an extension library
-#
-#     use 'jq'
+## ### use
+## 
+## Use an extension library
+##
+##     use 'jq'
+##
 use() {
     local extname extdir extinstall extlib
     extname="$1"

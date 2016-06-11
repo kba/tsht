@@ -2,40 +2,65 @@ tsht
 ====
 A tiny shell-script based TAP-compliant testing framework
 
+<!-- BEGIN-EVAL echo '<pre>';echo tsht|toilet -f bigmono9 -F crop;echo '</pre>' -->
+
+<pre>
+              █           
+  █           █        █  
+  █           █        █  
+█████  ▒███▒  █▒██▒  █████
+  █    █▒ ░█  █▓ ▒█    █  
+  █    █▒░    █   █    █  
+  █    ░███▒  █   █    █  
+  █       ▒█  █   █    █  
+  █░   █░ ▒█  █   █    █░ 
+  ▒██  ▒███▒  █   █    ▒██
+</pre>
+
+<!-- END-EVAL -->
+
 [![Build Status](https://travis-ci.org/kba/tsht.svg?branch=master)](https://travis-ci.org/kba/tsht)
 
-<!-- vim :GenTocGFM -->
+<!-- BEGIN-MARKDOWN-TOC -->
 * [Installation](#installation)
 	* [Per project](#per-project)
 	* [Per machine](#per-machine)
 * [Usage](#usage)
 	* [Specs](#specs)
+	* [CLI](#cli)
+	* [Extensions](#extensions)
 	* [Example](#example)
 	* [Vim integration](#vim-integration)
-* [Pretty Output](#pretty-output)
-* [API](#api)
-<!-- Begin API TOC -->
+	* [Pretty Output](#pretty-output)
+* [API - core](#api---core)
+	* [plan](#plan)
+	* [fail](#fail)
+	* [pass](#pass)
+	* [exec_fail](#exec_fail)
+	* [exec_ok](#exec_ok)
+	* [ok](#ok)
+	* [not_ok](#not_ok)
+	* [use](#use)
+* [API - file](#api---file)
+	* [file_exists](#file_exists)
+	* [not_file_exists](#not_file_exists)
+	* [not_file_empty](#not_file_empty)
+	* [equals_file](#equals_file)
+	* [equals_file_file](#equals_file_file)
+* [API - string](#api---string)
+	* [ok](#ok)
+	* [not_ok](#not_ok)
+	* [equals](#equals)
+	* [not_equals](#not_equals)
+	* [match](#match)
+	* [not_match](#not_match)
+* [API - jq](#api---jq)
+	* [jq_ok](#jq_ok)
+	* [jq_ok](#jq_ok)
+* [API - colordiff](#api---colordiff)
+	* [equals (colordiff)](#equals-colordiff)
 
-	* [core](#core)
-		* [plan](#plan)
-		* [fail](#fail)
-		* [pass](#pass)
-		* [exec_fail](#exec_fail)
-		* [exec_ok](#exec_ok)
-		* [ok](#ok)
-		* [not_ok](#not_ok)
-	* [file](#file)
-		* [file_exists](#file_exists)
-		* [file_not_empty](#file_not_empty)
-	* [string](#string)
-		* [ok](#ok)
-		* [not_ok](#not_ok)
-		* [equals](#equals)
-		* [not_equals](#not_equals)
-		* [match](#match)
-		* [not_match](#not_match)
-
-<!-- End API TOC -->
+<!-- END-MARKDOWN-TOC -->
 
 ## Installation
 
@@ -147,7 +172,7 @@ If you are a vim user, try out the [tsht.vim](https://github.com/kba/tsht.vim)
 plugin which will detect `.tsht` files, highlight the [builtin functions](#api)
 and execute scripts with the closest wrapper.
 
-## Pretty Output
+### Pretty Output
 
 There are various TAP consumers that can produce nice output, the
 [tape](https://github.com/substack/tape) NodeJS TAP-based framework [lists a
@@ -165,8 +190,9 @@ For the [tests of tsht itself](./test), it will produce output like this:
 $ ./test/tsht | tap-spec
 ```
 
-<!-- Begin tsht -->
-```
+<!-- BEGIN-EVAL echo '<pre>';./test/tsht|tap-spec;echo '</pre>' -->
+
+<pre>
 
   Testing ./runner/update/update.tsht
 
@@ -175,7 +201,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is 57598eeb7ea49f9ef2b938c7b1cd2e07c58b2a59
+    ✔ HEAD is a20a85e0afb83b6fe414a2064734ba751465d799
 
   Testing ./runner/help/help.tsht
 
@@ -184,6 +210,7 @@ $ ./test/tsht | tap-spec
     ✔ -h == --help
     ✔ Matches '--color': 'Usage: tsht [options...] [<path/to/unit.tsht>...]<LF>    Options:<LF>        --help     -h   Show this help<LF>        --color         Highlight passing/failing tests in green/red<LF>        --update '
     ✔ Matches '--update': 'Usage: tsht [options...] [<path/to/unit.tsht>...]<LF>    Options:<LF>        --help     -h   Show this help<LF>        --color         Highlight passing/failing tests in green/red<LF>        --update '
+    ✔ Matches '--version': 'Usage: tsht [options...] [<path/to/unit.tsht>...]<LF>    Options:<LF>        --help     -h   Show this help<LF>        --color         Highlight passing/failing tests in green/red<LF>        --update '
     ✔ Failed as expected (2) '/home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --foobar'
 
   Testing ./runner/color/color-test.tsht
@@ -191,7 +218,6 @@ $ ./test/tsht | tap-spec
 
   /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --color test
 
-    ✔ Color output as expected
 
   Testing ./runner/0tshtlib/tshtlib.tsht
 
@@ -254,42 +280,60 @@ $ ./test/tsht | tap-spec
 
     ✔ 1984 test
 
+  Testing ./ext/jq/jq.tsht
+
+    ✔ Executed: jq --version
+    ✔ From string
+    ✔ From STDIN (1)
+    ✔ From STDIN (2)
+    ✔ JSON: .foo.bar[1] -> '42'
+    ✔ 
+
   Testing ./issues/issue_8.tsht
 
     ✔ Matches '--foo': '--foo'
 
+  Testing ./before-after/ba2.tsht
 
-  total:     39
-  passing:   39
-  duration:  19ms
+    ✔ File does not exist: DELETEME
+
+  Testing ./before-after/ba.tsht
 
 
-```
-<!-- End tsht -->
+  Sourcing suffix suffixscript ba.tsht.before for ba.tsht
 
-## API
+    ✔ File exists: DELETEME
 
-<!-- Begin API -->
+  Sourcing suffix suffixscript ba.tsht.after for ba.tsht
 
-### core
+
+
+  total:     47
+  passing:   47
+  duration:  112ms
+
+
+</pre>
+
+<!-- END-EVAL -->
+
+## API - core
+
+<!-- BEGIN-RENDER lib/core.sh -->
+
 This library the core functions of tsht. It is always included and includes
 the most commonly used libraries:
+
 * [string](#string)
 * [file](#file)
 
-##### plan
-
-[source](./lib/core.sh#L17)
-[test](./test/api/core/plan.tsht)
+### plan
 
 Specify the number of planned assertions
 
     plan <number-of-tests>
 
-##### fail
-
-[source](./lib/core.sh#L29)
-[test](./test/api/core/fail.tsht)
+### fail
 
 Fail unconditionally
 
@@ -297,19 +341,13 @@ Fail unconditionally
 
 The additional output will be prefixed with `#`.
 
-##### pass
-
-[source](./lib/core.sh#L50)
-[test](./test/api/core/pass.tsht)
+### pass
 
 Succeed unconditionally.
 
 See [fail](#fail)
 
-##### exec_fail
-
-[source](./lib/core.sh#L67)
-[test](./test/api/core/exec_fail.tsht)
+### exec_fail
 
 Execute a command (or function) and succeed when its return code matches the
 parameter <expected-return>
@@ -320,10 +358,7 @@ Example
 
     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
 
-##### exec_ok
-
-[source](./lib/core.sh#L85)
-[test](./test/api/core/exec_ok.tsht)
+### exec_ok
 
 Execute a command (or function) and succeed when it returns zero.
 
@@ -331,59 +366,67 @@ Example
 
     exec_ok "ls" "-la"
 
-##### ok
-
-[source](./lib/core.sh#L102)
-[test](./test/api/core/ok.tsht)
+### ok
 
 Succeed if the first argument is a non-empty non-zero string
 
-##### not_ok
-
-[source](./lib/core.sh#L116)
-[test](./test/api/core/not_ok.tsht)
+### not_ok
 
 Succeed if the first argument is an empty string or zero.
+### use
 
-### file
+Use an extension library
 
-##### file_exists
+    use 'jq'
 
-[source](./lib/file.sh#L3)
-[test](./test/api/file/file_exists.tsht)
+<!-- END-RENDER -->
+
+## API - file
+
+<!-- BEGIN-RENDER lib/file.sh -->
+
+### file_exists
 
 Succeed if a file (or folder or symlink...) exists.
 
     file_exists ".git"
 
-##### file_not_empty
+### not_file_exists
 
-[source](./lib/file.sh#L18)
-[test](./test/api/file/file_not_empty.tsht)
+Succeed if a file (or folder or symlink...) does not exist.
+
+    not_file_exists "temp"
+
+### not_file_empty
+
+ALIAS: `file_not_empty`
 
 Succeed if a file exists and is a non-empty file.
 
-### string
+### equals_file
+
+Succeed if the first arguments match the contents of the file in the second argument.
+
+### equals_file_file
+
+Succeed if the contents of two files match, filenames passed as arguments.
+
+<!-- END-RENDER -->
+
+## API - string
+
+<!-- BEGIN-RENDER lib/string.sh -->
+
 This library contains functions testing strings and numbers
-
-##### ok
-
-[source](./lib/string.sh#L12)
-[test](./test/api/string/ok.tsht)
+### ok
 
 Succeed if the first argument is a non-empty non-zero string
 
-##### not_ok
-
-[source](./lib/string.sh#L26)
-[test](./test/api/string/not_ok.tsht)
+### not_ok
 
 Succeed if the first argument is an empty string or zero.
 
-##### equals
-
-[source](./lib/string.sh#L39)
-[test](./test/api/string/equals.tsht)
+### equals
 
 Test for equality of strings
 
@@ -394,29 +437,51 @@ Example:
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
 
-##### not_equals
-
-[source](./lib/string.sh#L62)
-[test](./test/api/string/not_equals.tsht)
+### not_equals
 
 Inverse of [equals](#equals).
 
-##### match
-
-[source](./lib/string.sh#L78)
-[test](./test/api/string/match.tsht)
+### match
 
 Succeed if a string matches a pattern
 
     match "^\\d+$" "1234" "Only numbers"
 
-##### not_match
-
-[source](./lib/string.sh#L95)
-[test](./test/api/string/not_match.tsht)
+### not_match
 
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
-<!-- End API -->
 
+<!-- END-RENDER -->
+
+## API - jq
+
+<!-- BEGIN-RENDER ext/jq/jq.sh -->
+
+### jq_ok
+
+Test if `jq` expression validates
+
+### jq_ok
+
+Test if `jq` expression is as exepected
+
+<!-- END-RENDER -->
+
+## API - colordiff
+
+<!-- BEGIN-RENDER ext/colordiff/colordiff.sh -->
+
+### equals (colordiff)
+
+Test for equality of strings and output colored diff on fail.
+
+    equals <expected> <actual> [<message>]
+
+Example:
+
+    equals "2" 2 "two equals two"
+    equals 2 "$(wc -l my-file)" "two lines in my-file"
+
+<!-- END-RENDER -->

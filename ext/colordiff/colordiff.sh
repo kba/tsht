@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# ### equals (colordiff)
-#
-# Test for equality of strings and output colored diff on fail.
-#
-#     equals <expected> <actual> [<message>]
-#
-# Example:
-#
-#     equals "2" 2 "two equals two"
-#     equals 2 "$(wc -l my-file)" "two lines in my-file"
+## ### equals (colordiff)
+##
+## Test for equality of strings and output colored diff on fail.
+##
+##     equals <expected> <actual> [<message>]
+##
+## Example:
+##
+##     equals "2" 2 "two equals two"
+##     equals 2 "$(wc -l my-file)" "two lines in my-file"
+##
 equals() {
     local expected actual message
     expected="$1"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This library contains functions testing strings and numbers
+## This library contains functions testing strings and numbers
 
 _shorten() {
     string="$1"
@@ -9,9 +9,10 @@ _shorten() {
     echo "$string"
 }
 
-# ### ok
-#
-# Succeed if the first argument is a non-empty non-zero string
+## ### ok
+##
+## Succeed if the first argument is a non-empty non-zero string
+##
 ok() {
     local input message
     input=$1 ; message=$2
@@ -23,9 +24,10 @@ ok() {
     fi
 }
 
-# ### not_ok
-#
-# Succeed if the first argument is an empty string or zero.
+## ### not_ok
+##
+## Succeed if the first argument is an empty string or zero.
+##
 not_ok() {
     local input message
     input=$1 ; message=$2
@@ -37,16 +39,17 @@ not_ok() {
     fi
 }
 
-# ### equals
-#
-# Test for equality of strings
-#
-#     equals <expected> <actual> [<message>]
-#
-# Example:
-#
-#     equals "2" 2 "two equals two"
-#     equals 2 "$(wc -l my-file)" "two lines in my-file"
+## ### equals
+##
+## Test for equality of strings
+##
+##     equals <expected> <actual> [<message>]
+##
+## Example:
+##
+##     equals "2" 2 "two equals two"
+##     equals 2 "$(wc -l my-file)" "two lines in my-file"
+##
 equals() {
     local expected actual message
     expected="$1"
@@ -60,9 +63,10 @@ equals() {
     fi
 }
 
-# ### not_equals
-#
-# Inverse of [equals](#equals).
+## ### not_equals
+##
+## Inverse of [equals](#equals).
+##
 not_equals() {
     local expected actual message
     expected="$1"
@@ -76,11 +80,12 @@ not_equals() {
     fi
 }
 
-# ### match
-#
-# Succeed if a string matches a pattern
-#
-#     match "^\\d+$" "1234" "Only numbers"
+## ### match
+##
+## Succeed if a string matches a pattern
+##
+##     match "^\\d+$" "1234" "Only numbers"
+##
 match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
@@ -93,11 +98,12 @@ match() {
     fi
 }
 
-# ### not_match
-#
-# Succeed if a string **does not** match a pattern
-#
-#     not_match "^\\d+$" "abcd" "Only numbers"
+## ### not_match
+##
+## Succeed if a string **does not** match a pattern
+##
+##     not_match "^\\d+$" "abcd" "Only numbers"
+##
 not_match() {
     local pattern string message
     pattern="$1"; string="$2"; message="$3"
