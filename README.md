@@ -5,15 +5,15 @@ A tiny shell-script based TAP-compliant testing framework
 <!-- BEGIN-EVAL echo '<pre>';echo tsht|toilet -f bigmono9 -F crop;echo '</pre>' -->
 
 <pre>
-              █           
-  █           █        █  
-  █           █        █  
+              █
+  █           █        █
+  █           █        █
 █████  ▒███▒  █▒██▒  █████
-  █    █▒ ░█  █▓ ▒█    █  
-  █    █▒░    █   █    █  
-  █    ░███▒  █   █    █  
-  █       ▒█  █   █    █  
-  █░   █░ ▒█  █   █    █░ 
+  █    █▒ ░█  █▓ ▒█    █
+  █    █▒░    █   █    █
+  █    ░███▒  █   █    █
+  █       ▒█  █   █    █
+  █░   █░ ▒█  █   █    █░
   ▒██  ▒███▒  █   █    ▒██
 </pre>
 
@@ -150,8 +150,21 @@ variable to let the extension use the locally installed software.
 
 Currently, these extensions are available:
 
-* [jq](ext/jq) [[test](test/ext/jq/jq.tsht)]: A wrapper around the [jq](https://stedolan.github.io/jq) CLI JSON query tool
-* [colordiff](ext/colordiff) [[test](test/ext/color/colordiff.tsht)]: Show differences with color-highlighted diff
+* [jq](ext/jq) ([API](#api---jq), [test](test/ext/jq/jq.tsht)): A wrapper around the [jq](https://stedolan.github.io/jq) CLI JSON query tool
+* [colordiff](ext/colordiff) ([API](#api---colordiff), [test](test/ext/color/colordiff.tsht)): Show differences with color-highlighted diff
+
+### Hooks
+
+Some unit tests require setup work before they run and teardown work
+after they run. To make this easier and reusable, these tasks can be
+grouped in `before` and `after` hooks, which are shell scripts or
+shell functions.
+
+Hooks are always test-specific and are looked for in three places:
+
+* Shell functions `before`/`after`
+* Shell scripts named like the test with suffix `.before`/`.after`
+* Shell scripts in the same directory as the test named `.before`/`.after`
 
 ### Example
 
@@ -287,7 +300,7 @@ $ ./test/tsht | tap-spec
     ✔ From STDIN (1)
     ✔ From STDIN (2)
     ✔ JSON: .foo.bar[1] -> '42'
-    ✔ 
+    ✔
 
   Testing ./issues/issue_8.tsht
 
