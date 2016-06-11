@@ -201,7 +201,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is a20a85e0afb83b6fe414a2064734ba751465d799
+    ✔ HEAD is 5c1f40e3530d6b28607fbe478be0a6747ecf14f9
 
   Testing ./runner/help/help.tsht
 
@@ -310,7 +310,7 @@ $ ./test/tsht | tap-spec
 
   total:     47
   passing:   47
-  duration:  112ms
+  duration:  114ms
 
 
 </pre>
@@ -459,6 +459,13 @@ Succeed if a string **does not** match a pattern
 
 <!-- BEGIN-RENDER ext/jq/jq.sh -->
 
+Extension that allows testing JSON strings.
+
+Enable with
+
+    use jq
+
+See [`jq` Github repo](https://github.com/stedolan/jq).
 ### jq_ok
 
 Test if `jq` expression validates
@@ -473,6 +480,16 @@ Test if `jq` expression is as exepected
 
 <!-- BEGIN-RENDER ext/colordiff/colordiff.sh -->
 
+Extension that replaces the builtin [`equals`](#equals) with
+a function that shows the difference in a colored diff output.
+
+Enable with
+
+    use colordiff
+
+Requires perl.
+
+See [colordiff Github repo](https://github.com/daveewart/colordiff).
 ### equals (colordiff)
 
 Test for equality of strings and output colored diff on fail.

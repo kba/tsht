@@ -1,5 +1,13 @@
 #!/bin/bash
 
+## Extension that allows testing JSON strings.
+##
+## Enable with
+##
+##     use jq
+##
+## See [`jq` Github repo](https://github.com/stedolan/jq).
+
 ## ### jq_ok
 ##
 ## Test if `jq` expression validates

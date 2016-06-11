@@ -1,5 +1,16 @@
 #!/bin/bash
 
+## Extension that replaces the builtin [`equals`](#equals) with
+## a function that shows the difference in a colored diff output.
+##
+## Enable with
+##
+##     use colordiff
+##
+## Requires perl.
+##
+## See [colordiff Github repo](https://github.com/daveewart/colordiff).
+
 ## ### equals (colordiff)
 ##
 ## Test for equality of strings and output colored diff on fail.
