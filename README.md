@@ -126,6 +126,7 @@ variable to let the extension use the locally installed software.
 Currently, these extensions are available:
 
 * [jq](ext/jq) [[test](test/ext/jq/jq.tsht)]: A wrapper around the [jq](https://stedolan.github.io/jq) CLI JSON query tool
+* [colordiff](ext/colordiff) [[test](test/ext/color/colordiff.tsht)]: Show differences with color-highlighted diff
 
 ### Example
 
