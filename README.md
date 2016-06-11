@@ -5,15 +5,15 @@ A tiny shell-script based TAP-compliant testing framework
 <!-- BEGIN-EVAL echo '<pre>';echo tsht|toilet -f bigmono9 -F crop;echo '</pre>' -->
 
 <pre>
-              █
-  █           █        █
-  █           █        █
+              █           
+  █           █        █  
+  █           █        █  
 █████  ▒███▒  █▒██▒  █████
-  █    █▒ ░█  █▓ ▒█    █
-  █    █▒░    █   █    █
-  █    ░███▒  █   █    █
-  █       ▒█  █   █    █
-  █░   █░ ▒█  █   █    █░
+  █    █▒ ░█  █▓ ▒█    █  
+  █    █▒░    █   █    █  
+  █    ░███▒  █   █    █  
+  █       ▒█  █   █    █  
+  █░   █░ ▒█  █   █    █░ 
   ▒██  ▒███▒  █   █    ▒██
 </pre>
 
@@ -29,6 +29,7 @@ A tiny shell-script based TAP-compliant testing framework
 	* [Specs](#specs)
 	* [CLI](#cli)
 	* [Extensions](#extensions)
+	* [Hooks](#hooks)
 	* [Example](#example)
 	* [Vim integration](#vim-integration)
 	* [Pretty Output](#pretty-output)
@@ -214,7 +215,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is 5c1f40e3530d6b28607fbe478be0a6747ecf14f9
+    ✔ HEAD is ae57885ae85508e3e3a6908c8efe591d30b8274b
 
   Testing ./runner/help/help.tsht
 
@@ -229,8 +230,9 @@ $ ./test/tsht | tap-spec
   Testing ./runner/color/color-test.tsht
 
 
-  /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --color test
+  /home/kb/build/github.com/kba/tsht/test/.tsht/tsht-runner.sh --color thetest
 
+    ✔ Color output as expected
 
   Testing ./runner/0tshtlib/tshtlib.tsht
 
@@ -300,7 +302,7 @@ $ ./test/tsht | tap-spec
     ✔ From STDIN (1)
     ✔ From STDIN (2)
     ✔ JSON: .foo.bar[1] -> '42'
-    ✔
+    ✔ 
 
   Testing ./issues/issue_8.tsht
 
@@ -321,9 +323,9 @@ $ ./test/tsht | tap-spec
 
 
 
-  total:     47
-  passing:   47
-  duration:  114ms
+  total:     48
+  passing:   48
+  duration:  120ms
 
 
 </pre>

@@ -1,4 +1,4 @@
-# Testing test
+# Testing ./thetest
 [1;31mnot ok[0;39m 1 - should pass ('0' != '1')
 [1;32mok[0;39m 2 - should fail
 1..2
