@@ -31,6 +31,8 @@ plan() {
 
 ## ### fail
 ##
+## ([source](./lib/core.sh#L__CURLINE__), [test](./test/api/core/exec_fail.tsht))
+##
 ## Fail unconditionally
 ##
 ##     fail <message> [<additional-output>]
@@ -71,6 +73,8 @@ pass() {
 
 ## ### exec_fail
 ##
+## ([source](./lib/core.sh#L__CURLINE__), [test](./test/api/core/exec_fail.tsht))
+##
 ## Execute a command (or function) and succeed when its return code matches the
 ## parameter <expected-return>
 ##
@@ -89,6 +93,8 @@ exec_fail() {
 }
 
 ## ### exec_ok
+##
+## ([source](./lib/core.sh#L__CURLINE__), [test](./test/api/core/exec_ok.tsht))
 ##
 ## Execute a command (or function) and succeed when it returns zero.
 ##

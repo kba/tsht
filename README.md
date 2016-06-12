@@ -215,7 +215,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is ae57885ae85508e3e3a6908c8efe591d30b8274b
+    ✔ HEAD is 91271fd7376478e5f9c95269729c7196b0cbc9e8
 
   Testing ./runner/help/help.tsht
 
@@ -325,7 +325,7 @@ $ ./test/tsht | tap-spec
 
   total:     48
   passing:   48
-  duration:  120ms
+  duration:  124ms
 
 
 </pre>
@@ -350,6 +350,8 @@ Specify the number of planned assertions
 
 ### fail
 
+([source](./lib/core.sh#L34), [test](./test/api/core/exec_fail.tsht))
+
 Fail unconditionally
 
     fail <message> [<additional-output>]
@@ -364,6 +366,8 @@ See [fail](#fail)
 
 ### exec_fail
 
+([source](./lib/core.sh#L76), [test](./test/api/core/exec_fail.tsht))
+
 Execute a command (or function) and succeed when its return code matches the
 parameter <expected-return>
 
@@ -374,6 +378,8 @@ Example
     exec_fail 2 "ls" "-la" "DOES-NOT-EXIST"
 
 ### exec_ok
+
+([source](./lib/core.sh#L97), [test](./test/api/core/exec_ok.tsht))
 
 Execute a command (or function) and succeed when it returns zero.
 
