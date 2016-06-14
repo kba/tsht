@@ -9,36 +9,6 @@ _shorten() {
     echo "$string"
 }
 
-## ### ok
-##
-## Succeed if the first argument is a non-empty non-zero string
-##
-ok() {
-    local input message
-    input=$1 ; message=$2
-    message=${message:-(unnamed ok assertion)}
-    if [[ -z "$input" || "0" = "$input" ]];then
-        fail "$message ('$input')"
-    else
-        pass "$message"
-    fi
-}
-
-## ### not_ok
-##
-## Succeed if the first argument is an empty string or zero.
-##
-not_ok() {
-    local input message
-    input=$1 ; message=$2
-    message=${message:-(unnamed not_ok assertion)}
-    if [[ -z "$input" || "0" = "$input" ]];then
-        pass "$message"
-    else
-        fail "$message"
-    fi
-}
-
 ## ### equals
 ##
 ## Test for equality of strings

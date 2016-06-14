@@ -130,6 +130,7 @@ ok() {
 ## ### not_ok
 ##
 ## Succeed if the first argument is an empty string or zero.
+##
 not_ok() {
     local input message
     input=$1 ; message=$2

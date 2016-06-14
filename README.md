@@ -2,22 +2,15 @@ tsht
 ====
 A tiny shell-script based TAP-compliant testing framework
 
-<!-- BEGIN-EVAL echo '<pre>';echo tsht|toilet -f bigmono9 -F crop;echo '</pre>' -->
-
+<!-- BEGIN-BANNER -f "Sub-Zero" --wrap '<pre>' '</pre>' tsht -->
 <pre>
-              █           
-  █           █        █  
-  █           █        █  
-█████  ▒███▒  █▒██▒  █████
-  █    █▒ ░█  █▓ ▒█    █  
-  █    █▒░    █   █    █  
-  █    ░███▒  █   █    █  
-  █       ▒█  █   █    █  
-  █░   █░ ▒█  █   █    █░ 
-  ▒██  ▒███▒  █   █    ▒██
+ ______   ______     __  __     ______  
+/\__  _\ /\  ___\   /\ \_\ \   /\__  _\ 
+\/_/\ \/ \ \___  \  \ \  __ \  \/_/\ \/ 
+   \ \_\  \/\_____\  \ \_\ \_\    \ \_\ 
+    \/_/   \/_____/   \/_/\/_/     \/_/ 
 </pre>
-
-<!-- END-EVAL -->
+<!-- END-BANNER -->
 
 [![Build Status](https://travis-ci.org/kba/tsht.svg?branch=master)](https://travis-ci.org/kba/tsht)
 
@@ -49,18 +42,15 @@ A tiny shell-script based TAP-compliant testing framework
 	* [equals_file](#equals_file)
 	* [equals_file_file](#equals_file_file)
 * [API - string](#api---string)
-	* [ok](#ok)
-	* [not_ok](#not_ok)
 	* [equals](#equals)
 	* [not_equals](#not_equals)
 	* [match](#match)
 	* [not_match](#not_match)
 * [API - jq](#api---jq)
 	* [jq_ok](#jq_ok)
-	* [jq_ok](#jq_ok)
+	* [jq_ok](#jq_ok-1)
 * [API - colordiff](#api---colordiff)
 	* [equals (colordiff)](#equals-colordiff)
-
 <!-- END-MARKDOWN-TOC -->
 
 ## Installation
@@ -205,7 +195,6 @@ $ ./test/tsht | tap-spec
 ```
 
 <!-- BEGIN-EVAL echo '<pre>';./test/tsht|tap-spec;echo '</pre>' -->
-
 <pre>
 
   Testing ./runner/update/update.tsht
@@ -215,7 +204,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is 91271fd7376478e5f9c95269729c7196b0cbc9e8
+    ✔ HEAD is 2676becfe5919ae79e994b56b41be098fc7cf97f
 
   Testing ./runner/help/help.tsht
 
@@ -276,9 +265,9 @@ $ ./test/tsht | tap-spec
 
   Testing ./api/string/match.tsht
 
-    ✔ Matches '^d+': '1234'
-    ✔ Matches '^d+$': '1234'
-    ✔ Matches '^ad+$': 'a1234'
+    ✔ Matches '^\d+': '1234'
+    ✔ Matches '^\d+$': '1234'
+    ✔ Matches '^a\d+$': 'a1234'
 
   Testing ./api/string/equals.tsht
 
@@ -289,7 +278,7 @@ $ ./test/tsht | tap-spec
 
   Testing ./api/string/not_match.tsht
 
-    ✔ Not like '^d+$': 'string'
+    ✔ Not like '^\d+$': 'string'
 
   Testing ./api/string/not_equals.tsht
 
@@ -325,17 +314,15 @@ $ ./test/tsht | tap-spec
 
   total:     48
   passing:   48
-  duration:  124ms
+  duration:  135ms
 
 
 </pre>
-
 <!-- END-EVAL -->
 
 ## API - core
 
 <!-- BEGIN-RENDER lib/core.sh -->
-
 This library the core functions of tsht. It is always included and includes
 the most commonly used libraries:
 
@@ -394,18 +381,17 @@ Succeed if the first argument is a non-empty non-zero string
 ### not_ok
 
 Succeed if the first argument is an empty string or zero.
+
 ### use
 
 Use an extension library
 
     use 'jq'
-
 <!-- END-RENDER -->
 
 ## API - file
 
 <!-- BEGIN-RENDER lib/file.sh -->
-
 ### file_exists
 
 Succeed if a file (or folder or symlink...) exists.
@@ -431,22 +417,12 @@ Succeed if the first arguments match the contents of the file in the second argu
 ### equals_file_file
 
 Succeed if the contents of two files match, filenames passed as arguments.
-
 <!-- END-RENDER -->
 
 ## API - string
 
 <!-- BEGIN-RENDER lib/string.sh -->
-
 This library contains functions testing strings and numbers
-### ok
-
-Succeed if the first argument is a non-empty non-zero string
-
-### not_ok
-
-Succeed if the first argument is an empty string or zero.
-
 ### equals
 
 Test for equality of strings
@@ -473,13 +449,11 @@ Succeed if a string matches a pattern
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
-
 <!-- END-RENDER -->
 
 ## API - jq
 
 <!-- BEGIN-RENDER ext/jq/jq.sh -->
-
 Extension that allows testing JSON strings.
 
 Enable with
@@ -494,13 +468,11 @@ Test if `jq` expression validates
 ### jq_ok
 
 Test if `jq` expression is as exepected
-
 <!-- END-RENDER -->
 
 ## API - colordiff
 
 <!-- BEGIN-RENDER ext/colordiff/colordiff.sh -->
-
 Extension that replaces the builtin [`equals`](#equals) with
 a function that shows the difference in a colored diff output.
 
@@ -521,5 +493,4 @@ Example:
 
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
-
 <!-- END-RENDER -->
