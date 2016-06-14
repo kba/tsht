@@ -89,7 +89,7 @@ for t in "${TESTS[@]}";do
         exit "$TEST_FAILED"
     ) | (
         failed=0
-        while read line;do 
+        while read -r line;do 
             if [[ "$line" =~ ^not.ok ]];then
                 failed=$((failed + 1))
             fi
@@ -98,7 +98,7 @@ for t in "${TESTS[@]}";do
                     | sed 's/^ok/\x1b[1;32m&\x1b[0;39m/' \
                     | sed 's/^not ok/\x1b[1;31m&\x1b[0;39m/'
             else
-                echo "$line"
+                echo -E "$line"
             fi
         done
         exit $failed
