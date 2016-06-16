@@ -1,19 +1,17 @@
 #!/bin/bash
 
 ## Extension that replaces the builtin [`equals`](#equals) with
-## a function that shows the difference in a colored diff output.
+## a function that shows the difference as a unified diff
 ##
 ## Enable with
 ##
-##     use colordiff
+##     use diff
 ##
-## Requires perl.
-##
-## See [colordiff Github repo](https://github.com/daveewart/colordiff).
+## Requires diff(1).
 
 ## ### equals (colordiff)
 ##
-## Test for equality of strings and output colored diff on fail.
+## Test for equality of strings and output unified diff on fail.
 ##
 ##     equals <expected> <actual> [<message>]
 ##
@@ -31,7 +29,7 @@ equals() {
     if [[ "$expected" = "$actual" ]];then
         pass "$message"
     else
-        diff=$(colordiff -U 5 --label expected --label actual <(echo "$expected") <(echo "$actual")|sed 's/^/# /')
+        diff=$(diff -U 5 --label expected --label actual <(echo "$expected") <(echo "$actual")|sed 's/^/# /')
         fail "$message\n$diff"
     fi
 }

@@ -1,0 +1,9 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+resp=$(
+    use colordiff;
+    equals $((2+2)) 5 "A lie is a lie is a lie." 
+)
+equals_file "$resp" expected "A colordiff is a colordiff is a colordiff"

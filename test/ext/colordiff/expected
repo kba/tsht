@@ -1,0 +1,6 @@
+not ok 1 - A lie is a lie is a lie.
+# [1;31m--- expected[0;0m
+# [1;34m+++ actual[0;0m
+# [1;35m@@ -1 +1 @@[0;0m
+# [1;31m-4[0;0m
+# [1;34m+5[0;0m

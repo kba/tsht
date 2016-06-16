@@ -4,12 +4,14 @@ A tiny shell-script based TAP-compliant testing framework
 
 <!-- BEGIN-BANNER -f "Sub-Zero" --wrap '<pre>' '</pre>' tsht -->
 <pre>
- ______   ______     __  __     ______  
-/\__  _\ /\  ___\   /\ \_\ \   /\__  _\ 
-\/_/\ \/ \ \___  \  \ \  __ \  \/_/\ \/ 
-   \ \_\  \/\_____\  \ \_\ \_\    \ \_\ 
-    \/_/   \/_____/   \/_/\/_/     \/_/ 
+ ______   ______     __  __     ______
+/\__  _\ /\  ___\   /\ \_\ \   /\__  _\
+\/_/\ \/ \ \___  \  \ \  __ \  \/_/\ \/
+   \ \_\  \/\_____\  \ \_\ \_\    \ \_\
+    \/_/   \/_____/   \/_/\/_/     \/_/
 </pre>
+
+
 <!-- END-BANNER -->
 
 [![Build Status](https://travis-ci.org/kba/tsht.svg?branch=master)](https://travis-ci.org/kba/tsht)
@@ -49,8 +51,11 @@ A tiny shell-script based TAP-compliant testing framework
 * [API - jq](#api---jq)
 	* [jq_ok](#jq_ok)
 	* [jq_ok](#jq_ok-1)
-* [API - colordiff](#api---colordiff)
+* [API - diff](#api---diff)
 	* [equals (colordiff)](#equals-colordiff)
+* [API - colordiff](#api---colordiff)
+	* [equals (colordiff)](#equals-colordiff-1)
+
 <!-- END-MARKDOWN-TOC -->
 
 ## Installation
@@ -204,7 +209,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is 2676becfe5919ae79e994b56b41be098fc7cf97f
+    ✔ HEAD is 74bcf23409ece93bc2c0a639e74f0ff17d5ce207
 
   Testing ./runner/help/help.tsht
 
@@ -284,6 +289,10 @@ $ ./test/tsht | tap-spec
 
     ✔ 1984 test
 
+  Testing ./ext/colordiff/diff.tsht
+
+    ✔ A colordiff is a colordiff is a colordiff
+
   Testing ./ext/jq/jq.tsht
 
     ✔ Executed: jq --version
@@ -291,7 +300,11 @@ $ ./test/tsht | tap-spec
     ✔ From STDIN (1)
     ✔ From STDIN (2)
     ✔ JSON: .foo.bar[1] -> '42'
-    ✔ 
+    ✔
+
+  Testing ./ext/diff/diff.tsht
+
+    ✔ A diff is a diff is a diff
 
   Testing ./issues/issue_8.tsht
 
@@ -312,12 +325,14 @@ $ ./test/tsht | tap-spec
 
 
 
-  total:     48
-  passing:   48
-  duration:  135ms
+  total:     50
+  passing:   50
+  duration:  105ms
 
 
 </pre>
+
+
 <!-- END-EVAL -->
 
 ## API - core
@@ -387,6 +402,8 @@ Succeed if the first argument is an empty string or zero.
 Use an extension library
 
     use 'jq'
+
+
 <!-- END-RENDER -->
 
 ## API - file
@@ -417,6 +434,8 @@ Succeed if the first arguments match the contents of the file in the second argu
 ### equals_file_file
 
 Succeed if the contents of two files match, filenames passed as arguments.
+
+
 <!-- END-RENDER -->
 
 ## API - string
@@ -449,6 +468,8 @@ Succeed if a string matches a pattern
 Succeed if a string **does not** match a pattern
 
     not_match "^\\d+$" "abcd" "Only numbers"
+
+
 <!-- END-RENDER -->
 
 ## API - jq
@@ -468,6 +489,33 @@ Test if `jq` expression validates
 ### jq_ok
 
 Test if `jq` expression is as exepected
+
+
+<!-- END-RENDER -->
+
+## API - diff
+
+<!-- BEGIN-RENDER ext/diff/diff.sh -->
+Extension that replaces the builtin [`equals`](#equals) with
+a function that shows the difference as a unified diff
+
+Enable with
+
+    use diff
+
+Requires diff(1).
+### equals (colordiff)
+
+Test for equality of strings and output unified diff on fail.
+
+    equals <expected> <actual> [<message>]
+
+Example:
+
+    equals "2" 2 "two equals two"
+    equals 2 "$(wc -l my-file)" "two lines in my-file"
+
+
 <!-- END-RENDER -->
 
 ## API - colordiff
@@ -493,4 +541,6 @@ Example:
 
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
+
+
 <!-- END-RENDER -->
