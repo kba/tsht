@@ -1,2 +1,4 @@
 test/.tsht
 test/runner.sh
+ext/*/bin
+ext/*/share

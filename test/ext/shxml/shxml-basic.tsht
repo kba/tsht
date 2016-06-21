@@ -1,0 +1,7 @@
+#!/usr/bin/env tsht
+
+plan 1
+
+use 'shxml'
+
+exec_ok shxml --help
