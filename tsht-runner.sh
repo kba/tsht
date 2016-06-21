@@ -71,6 +71,7 @@ else
 fi
  
 export total_failed
+total_failed=0
 for t in "${TESTS[@]}";do
     CURTEST="$(cd "$(dirname "$t")" && pwd)/$(basename "$t")"
     echo "# Testing $t"
