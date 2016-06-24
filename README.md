@@ -4,13 +4,12 @@ A tiny shell-script based TAP-compliant testing framework
 
 <!-- BEGIN-BANNER -f "Sub-Zero" --wrap '<pre>' '</pre>' tsht -->
 <pre>
- ______   ______     __  __     ______
-/\__  _\ /\  ___\   /\ \_\ \   /\__  _\
-\/_/\ \/ \ \___  \  \ \  __ \  \/_/\ \/
-   \ \_\  \/\_____\  \ \_\ \_\    \ \_\
-    \/_/   \/_____/   \/_/\/_/     \/_/
+ ______   ______     __  __     ______  
+/\__  _\ /\  ___\   /\ \_\ \   /\__  _\ 
+\/_/\ \/ \ \___  \  \ \  __ \  \/_/\ \/ 
+   \ \_\  \/\_____\  \ \_\ \_\    \ \_\ 
+    \/_/   \/_____/   \/_/\/_/     \/_/ 
 </pre>
-
 
 <!-- END-BANNER -->
 
@@ -55,6 +54,7 @@ A tiny shell-script based TAP-compliant testing framework
 	* [equals (colordiff)](#equals-colordiff)
 * [API - colordiff](#api---colordiff)
 	* [equals (colordiff)](#equals-colordiff-1)
+* [API - shxml](#api---shxml)
 
 <!-- END-MARKDOWN-TOC -->
 
@@ -147,7 +147,10 @@ variable to let the extension use the locally installed software.
 Currently, these extensions are available:
 
 * [jq](ext/jq) ([API](#api---jq), [test](test/ext/jq/jq.tsht)): A wrapper around the [jq](https://stedolan.github.io/jq) CLI JSON query tool
-* [colordiff](ext/colordiff) ([API](#api---colordiff), [test](test/ext/color/colordiff.tsht)): Show differences with color-highlighted diff
+* [diff](ext/colordiff) ([API](#api---colordiff), [test](test/ext/color/colordiff.tsht)): Show differences with color-highlighted diff
+* [diff](ext/diff) ([API](#api---diff), [test](test/ext/color/diff.tsht)): Show differences with diff
+* [shxml](ext/shxml) ([API](#api---shxml),
+  [test](test/ext/color/shxml.tsht)) Use XML based tools in tests (XSD, XSD, XPATH…)
 
 ### Hooks
 
@@ -209,7 +212,7 @@ $ ./test/tsht | tap-spec
     ✔ Executed: git reset --hard bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ HEAD is bd9fbafa643f10087cb24ff0f3b47a9d33a12a26
     ✔ Executed: ./tsht --update
-    ✔ HEAD is 74bcf23409ece93bc2c0a639e74f0ff17d5ce207
+    ✔ HEAD is 81ce4a381d416855eb37b99a087e8d01edae661c
 
   Testing ./runner/help/help.tsht
 
@@ -289,6 +292,10 @@ $ ./test/tsht | tap-spec
 
     ✔ 1984 test
 
+  Testing ./ext/shxml/shxml-basic.tsht
+
+    ✔ Executed: shxml --help
+
   Testing ./ext/colordiff/diff.tsht
 
     ✔ A colordiff is a colordiff is a colordiff
@@ -300,7 +307,7 @@ $ ./test/tsht | tap-spec
     ✔ From STDIN (1)
     ✔ From STDIN (2)
     ✔ JSON: .foo.bar[1] -> '42'
-    ✔
+    ✔ 
 
   Testing ./ext/diff/diff.tsht
 
@@ -325,13 +332,12 @@ $ ./test/tsht | tap-spec
 
 
 
-  total:     50
-  passing:   50
-  duration:  105ms
+  total:     51
+  passing:   51
+  duration:  226ms
 
 
 </pre>
-
 
 <!-- END-EVAL -->
 
@@ -403,7 +409,6 @@ Use an extension library
 
     use 'jq'
 
-
 <!-- END-RENDER -->
 
 ## API - file
@@ -435,7 +440,6 @@ Succeed if the first arguments match the contents of the file in the second argu
 
 Succeed if the contents of two files match, filenames passed as arguments.
 
-
 <!-- END-RENDER -->
 
 ## API - string
@@ -461,14 +465,13 @@ Inverse of [equals](#equals).
 
 Succeed if a string matches a pattern
 
-    match "^\\d+$" "1234" "Only numbers"
+    match "^\d+$" "1234" "Only numbers"
 
 ### not_match
 
 Succeed if a string **does not** match a pattern
 
-    not_match "^\\d+$" "abcd" "Only numbers"
-
+    not_match "^\d+$" "abcd" "Only numbers"
 
 <!-- END-RENDER -->
 
@@ -489,7 +492,6 @@ Test if `jq` expression validates
 ### jq_ok
 
 Test if `jq` expression is as exepected
-
 
 <!-- END-RENDER -->
 
@@ -514,7 +516,6 @@ Example:
 
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
-
 
 <!-- END-RENDER -->
 
@@ -542,5 +543,17 @@ Example:
     equals "2" 2 "two equals two"
     equals 2 "$(wc -l my-file)" "two lines in my-file"
 
+<!-- END-RENDER -->
+
+## API - shxml
+
+<!-- BEGIN-RENDER ext/shxml/shxml.sh -->
+Extension that makes [`shxml`](https://github.com/kba/shxml) available
+
+Enable with
+
+    use shxml
+
+See [`shxml` Github repo](https://github.com/kba/shxml).
 
 <!-- END-RENDER -->
