@@ -57,7 +57,7 @@ declare -a TESTS
 
 if [[ -z "$1" ]];then
     cd "$TSHTLIB/.."
-    TESTS=($(find . -type f -name '*.tsht' -not -path '*/.tsht/*'))
+    TESTS=($(find . -type f -name '*.tsht' -not -path '*/.tsht/*'|sort))
 else
     while [[ -n "$1" ]];do
         if [[ ! -e "$1" ]];then
