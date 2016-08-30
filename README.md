@@ -161,9 +161,13 @@ shell functions.
 
 Hooks are always test-specific and are looked for in three places:
 
-* Shell functions `before`/`after`
+* Shell function `after`
 * Shell scripts named like the test with suffix `.before`/`.after`
 * Shell scripts in the same directory as the test named `.before`/`.after`
+
+**Note:** `before` cannot be a shell function in the script because the script
+must be sourced to declare it and once it has been sourced, it's too late to
+call the `before` hook.
 
 ### Example
 
