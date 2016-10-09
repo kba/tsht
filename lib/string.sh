@@ -62,7 +62,7 @@ match() {
     message=${message:-(unnamed match assertion)}
     echo "$string"|grep -Pi -- "$pattern" 2>/dev/null >&2
     if [[ "$?" != 0 ]];then
-        fail "Does ot match '$pattern': '$(_shorten "$string")'"
+        fail "Does not match '$pattern': '$(_shorten "$string")'"
     else
         pass "Matches '$pattern': '$(_shorten "$string" )'"
     fi
